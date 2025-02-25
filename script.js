@@ -72,7 +72,7 @@ function pd(coord) {
     //setTimeout(function () {
     if (computerColor == playerColor) {
         //cpu();
-        w.port.postMessage("computerPlay");
+        w.postMessage("computerPlay");
     }
     //}, 100)
 }
