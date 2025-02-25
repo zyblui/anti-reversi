@@ -52,7 +52,6 @@ document.getElementById("setupClear").addEventListener("click", function () {
 document.getElementById("startGameButton").addEventListener("click", function () {
     if (playerColor == computerColor) cpu();
 })
-let searchDepth = 6;
 document.getElementById("computerRoleBlack").addEventListener("click", function () {
     computerColor = 1;
 });
