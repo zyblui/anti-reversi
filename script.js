@@ -1,5 +1,6 @@
 let w = new Worker("w.js");
 w.onmessage = function (e) {
+    console.log(e.data)
     if (e.data.length == 2) pd(e.data);
 }
 render();
@@ -50,7 +51,10 @@ document.getElementById("setupClear").addEventListener("click", function () {
     render();
 })
 document.getElementById("startGameButton").addEventListener("click", function () {
-    if (playerColor == computerColor) cpu();
+    if (playerColor == computerColor) {
+        //cpu();
+        w.postMessage("computerPlay");
+    }
 })
 document.getElementById("computerRoleBlack").addEventListener("click", function () {
     computerColor = 1;
@@ -149,9 +153,10 @@ function pd(coord) {
     }
     console.log(((arguments[1]) ? "Computer" : "You") + " placed a disc on " + coord);
     console.log("The currect board is");
-    console.log(boardStr)
+    console.log(boardStr);
     render();
     //setTimeout(function () {
+    console.log(computerColor,playerColor)
     if (computerColor == playerColor) {
         //cpu();
         w.postMessage("computerPlay");
