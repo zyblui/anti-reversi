@@ -1,0 +1,305 @@
+.grid {
+    width: 69.5px;
+    height: 69.5px;
+    border: solid 1px #333;
+    position: absolute;
+}
+
+.r1 {
+    top: 0;
+}
+
+.r2 {
+    top: 70px;
+}
+
+.r3 {
+    top: 140px;
+}
+
+.r4 {
+    top: 210px
+}
+
+.r5 {
+    top: 280px
+}
+
+.r6 {
+    top: 350px
+}
+
+.r7 {
+    top: 420px
+}
+
+.r8 {
+    top: 490px
+}
+
+.c1 {
+    left: 0
+}
+
+.c2 {
+    left: 70px;
+}
+
+.c3 {
+    left: 140px;
+}
+
+.c4 {
+    left: 210px
+}
+
+.c5 {
+    left: 280px
+}
+
+.c6 {
+    left: 350px
+}
+
+.c7 {
+    left: 420px
+}
+
+.c8 {
+    left: 490px
+}
+
+.black::before {
+    content: "";
+    display: block;
+    width: 56px;
+    height: 56px;
+    border-radius: 30px;
+    border: solid 2px #333;
+    background-color: black;
+    position: relative;
+    top: 5px;
+    left: 5px;
+}
+
+.white::before {
+    content: "";
+    display: block;
+    width: 56px;
+    height: 56px;
+    border-radius: 30px;
+    border: solid 2px #333;
+    background-color: white;
+    position: relative;
+    top: 5px;
+    left: 5px;
+}
+
+.move::before {
+    content: "";
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: #333;
+    position: relative;
+    top: 29.5px;
+    left: 29.5px;
+}
+
+.lastMove::after {
+    content: "";
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: red;
+    position: relative;
+    top: -29.5px;
+    left: 29.5px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: black;
+    position: absolute;
+}
+
+.dot-top {
+    top: 135px;
+}
+
+.dot-bottom {
+    bottom: 135px;
+}
+
+.dot-left {
+    left: 135px;
+}
+
+.dot-right {
+    right: 135px;
+}
+
+#board-container {
+    width: 560.5px;
+    height: 560.5px;
+    display: inline-block;
+    position: relative;
+    background-color: #256ea288
+}
+
+html {
+    font-family: Roboto, sans-serif;
+    font-size: 20px;
+}
+
+button,
+input[type="radio"]+div {
+    display: inline-block;
+    border: solid 3px transparent;
+    background-color: #eee;
+    font-family: Roboto, sans-serif;
+    font-size: 20px;
+    padding: 6px;
+
+    &:hover {
+        border: solid 3px lightgray;
+    }
+
+    &.selected,
+    input:checked+& {
+        background-color: dodgerblue;
+        color: white;
+
+        &:hover {
+            border: solid 3px transparent
+        }
+    }
+
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+#side {
+    width: 400px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+#side>div {
+    margin-bottom: 3px;
+}
+
+h1 {
+    margin: 13px 0;
+    vertical-align: top;
+    height: 40px;
+    font-size: 40px;
+}
+
+h2 {
+    margin: 0;
+    font-size: 30px;
+}
+
+#scoreboard {
+    border: solid 3px lightgray;
+    width: 200px;
+}
+
+#scoreboard>div {
+    height: 30px;
+    position: relative;
+}
+
+.score {
+    position: absolute;
+    right: 3px;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    height: 20px;
+    font-weight: bold;
+}
+
+.indicator {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    vertical-align: top;
+
+    &.active::after {
+        width: 6px;
+        height: 6px;
+        border-radius: 3px;
+        background-color: #333;
+        content: "";
+        display: block;
+        position: relative;
+        top: 12px;
+        left: 12px
+    }
+}
+
+#blackBar,
+#whiteBar {
+    width: 10px;
+    height: 30px;
+    display: inline-block;
+    border: solid 3px #333;
+    position: relative;
+    top: -2.4px;
+    left: -2.4px
+}
+
+#blackBar {
+    background-color: black;
+}
+
+#whiteBar {
+    background-color: white;
+}
+
+hr {
+    border-top: solid 3px lightgray;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    margin: 0;
+}
+
+.playerName {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    height: 20px;
+}
+
+#container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    padding: 9px;
+    width: fit-content;
+    height: fit-content;
+    background-color: white;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background-color: #ccc;
+    -webkit-user-select: none;
+    user-select: none;
+}

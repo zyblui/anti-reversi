@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anti Reversi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="container">
+        <div id="board-container">
+            <div class="dot dot-top dot-left"></div>
+            <div class="dot dot-top dot-right"></div>
+            <div class="dot dot-bottom dot-right"></div>
+            <div class="dot dot-bottom dot-left"></div>
+            <div class="grid r1 c1"></div>
+            <div class="grid r1 c2"></div>
+            <div class="grid r1 c3"></div>
+            <div class="grid r1 c4"></div>
+            <div class="grid r1 c5"></div>
+            <div class="grid r1 c6"></div>
+            <div class="grid r1 c7"></div>
+            <div class="grid r1 c8"></div>
+            <div class="grid r2 c1"></div>
+            <div class="grid r2 c2"></div>
+            <div class="grid r2 c3"></div>
+            <div class="grid r2 c4"></div>
+            <div class="grid r2 c5"></div>
+            <div class="grid r2 c6"></div>
+            <div class="grid r2 c7"></div>
+            <div class="grid r2 c8"></div>
+            <div class="grid r3 c1"></div>
+            <div class="grid r3 c2"></div>
+            <div class="grid r3 c3"></div>
+            <div class="grid r3 c4"></div>
+            <div class="grid r3 c5"></div>
+            <div class="grid r3 c6"></div>
+            <div class="grid r3 c7"></div>
+            <div class="grid r3 c8"></div>
+            <div class="grid r4 c1"></div>
+            <div class="grid r4 c2"></div>
+            <div class="grid r4 c3"></div>
+            <div class="grid r4 c4 white"></div>
+            <div class="grid r4 c5 black"></div>
+            <div class="grid r4 c6"></div>
+            <div class="grid r4 c7"></div>
+            <div class="grid r4 c8"></div>
+            <div class="grid r5 c1"></div>
+            <div class="grid r5 c2"></div>
+            <div class="grid r5 c3"></div>
+            <div class="grid r5 c4 black"></div>
+            <div class="grid r5 c5 white"></div>
+            <div class="grid r5 c6"></div>
+            <div class="grid r5 c7"></div>
+            <div class="grid r5 c8"></div>
+            <div class="grid r6 c1"></div>
+            <div class="grid r6 c2"></div>
+            <div class="grid r6 c3"></div>
+            <div class="grid r6 c4"></div>
+            <div class="grid r6 c5"></div>
+            <div class="grid r6 c6"></div>
+            <div class="grid r6 c7"></div>
+            <div class="grid r6 c8"></div>
+            <div class="grid r7 c1"></div>
+            <div class="grid r7 c2"></div>
+            <div class="grid r7 c3"></div>
+            <div class="grid r7 c4"></div>
+            <div class="grid r7 c5"></div>
+            <div class="grid r7 c6"></div>
+            <div class="grid r7 c7"></div>
+            <div class="grid r7 c8"></div>
+            <div class="grid r8 c1"></div>
+            <div class="grid r8 c2"></div>
+            <div class="grid r8 c3"></div>
+            <div class="grid r8 c4"></div>
+            <div class="grid r8 c5"></div>
+            <div class="grid r8 c6"></div>
+            <div class="grid r8 c7"></div>
+            <div class="grid r8 c8"></div>
+        </div>
+        <div id="side">
+            <h1>Anti Reversi</h1>
+            <div id="scoreboard">
+                <div>
+                    <div id="blackBar"></div>
+                    <div class="indicator active" id="indicatorBlack"></div><span class="playerName">Black</span>
+                    <span class="score" id="blackScore">2</span>
+                </div>
+                <hr />
+                <div>
+                    <div id="whiteBar"></div>
+                    <div class="indicator" id="indicatorWhite"></div><span class="playerName">White</span>
+                    <span class="score" id="whiteScore">2</span>
+                </div>
+            </div>
+            <div>
+                <button id="startGameButton">Start Game</button>
+                <button id="setupButton">Setup Board</button>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" checked="checked" name="sideToMove" id="sideToMoveBlack" />
+                    <div>Black</div>
+                </label>
+                <label>
+                    <input type="radio" name="sideToMove" id="sideToMoveWhite" />
+                    <div>White</div>
+                </label>
+                to move
+            </div>
+            <div>Computer plays <label><input type="radio" name="computerRole" id="computerRoleBlack" />
+                    <div>Black</div>
+                </label>
+                <label><input type="radio" checked="checked" name="computerRole" id="computerRoleWhite" />
+                    <div>White</div>
+                </label>
+                <label><input type="radio" name="computerRole" id="computerRoleNeither" />
+                    <div>Neither</div>
+                </label>
+            </div>
+            <div>Search Depth <label><input type="radio" checked="checked" name="searchDepth" id="searchDepth6" />
+                    <div>6 moves</div>
+                </label>
+                <label><input type="radio" name="searchDepth" id="searchDepth8" />
+                    <div>8
+                        moves</div>
+                </label>
+            </div>
+            <div>
+                <h2>Setup Board</h2>
+                <hr />
+                <div>
+                    Disc type <label>
+                        <input type="radio" checked="checked" id="setupBlack" name="discType" />
+                        <div>Black</div>
+                    </label>
+                    <label>
+                        <input type="radio" id="setupWhite" name="discType" />
+                        <div>White</div>
+                    </label>
+                    <label>
+                        <input type="radio" id="setupErase" name="discType" />
+                        <div>Erase Disc</div>
+                    </label>
+                </div>
+            </div>
+            <button id="setupClear">Clear</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script src="w.js"></script>
+</body>
+
+</html>
