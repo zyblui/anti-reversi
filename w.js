@@ -1,6 +1,18 @@
 onmessage = function (e) {
     if (e.data.type == "computerPlay") this.postMessage(self.cpu(e.data.board,e.data.depth,e.data.color));
 }
+const STATIC_TABLE = [
+    [-99, 48, -8, 6, 6, -8, 48, -99],
+    [48, -8, -16, 3, 3, -16, -8, 48],
+    [-8, -16, 4, 4, 4, 4, -16, -8],
+    [6, 3, 4, 0, 0, 4, 3, 6],
+    [6, 3, 4, 0, 0, 4, 3, 6],
+    [-8, -16, 4, 4, 4, 4, -16, -8],
+    [48, -8, -16, 3, 3, -16, -8, 48],
+    [-99, 48, -8, 6, 6, -8, 48, -99]
+]
+const DIRECTIONS = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
+const LETTERS = ["a", "b", "c", "d", "e", "f", "g", "h"];
 function searchAlpha(currentMove, depth, color, playerColor, parentBestVal, clearNextMoves, isShallowSearch) {
     let currentBoard = currentMove.board;
     if (currentMove.nextMoves.length) {
@@ -321,7 +333,7 @@ function validMovesArr() {
     let situations = []
     for (let m = 0; m <= 7; m++) {
         for (let n = 0; n <= 7; n++) {
-            let placeResult = placeDisc(board, m, n, playerColor);
+            let placeResult = placeDisc(board, m, n, e.data.color);
             if (placeResult.isValid) {
                 situations.push(m * 8 + n)
             }
@@ -347,15 +359,3 @@ function cpu(board,depth,color) {
         }
     }
 }
-const STATIC_TABLE = [
-    [-99, 48, -8, 6, 6, -8, 48, -99],
-    [48, -8, -16, 3, 3, -16, -8, 48],
-    [-8, -16, 4, 4, 4, 4, -16, -8],
-    [6, 3, 4, 0, 0, 4, 3, 6],
-    [6, 3, 4, 0, 0, 4, 3, 6],
-    [-8, -16, 4, 4, 4, 4, -16, -8],
-    [48, -8, -16, 3, 3, -16, -8, 48],
-    [-99, 48, -8, 6, 6, -8, 48, -99]
-]
-const DIRECTIONS = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
-const LETTERS = ["a", "b", "c", "d", "e", "f", "g", "h"];
