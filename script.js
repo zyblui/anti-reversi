@@ -72,12 +72,7 @@ function pd(coord) {
     //setTimeout(function () {
     if (computerColor == playerColor) {
         //cpu();
-        w.postMessage({
-            type:"computerPlay",
-            board:board,
-            sideToMove:playerColor,
-            searchDepth:searchDepth
-        });
+        w.postMessage("computerPlay");
     }
     //}, 100)
 }
