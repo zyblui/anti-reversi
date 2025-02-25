@@ -1,3 +1,36 @@
+/*const*/let STATIC_TABLE = [
+    [-99, 48, -8, 6, 6, -8, 48, -99],
+    [48, -8, -16, 3, 3, -16, -8, 48],
+    [-8, -16, 4, 4, 4, 4, -16, -8],
+    [6, 3, 4, 0, 0, 4, 3, 6],
+    [6, 3, 4, 0, 0, 4, 3, 6],
+    [-8, -16, 4, 4, 4, 4, -16, -8],
+    [48, -8, -16, 3, 3, -16, -8, 48],
+    [-99, 48, -8, 6, 6, -8, 48, -99]
+]
+/*const*/let DIRECTIONS = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
+/*const*/let LETTERS = ["a", "b", "c", "d", "e", "f", "g", "h"];
+let board = [
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, -1, 1, 0, 0, 0],
+    [0, 0, 0, 1, -1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0]
+]//1 for black, -1 for white
+let positionsConsidered = 0;
+let playerColor = 1;
+let computerColor = -1;
+let lastCoord = {
+    x: 0,/*1~8 */
+    y: 0
+}
+let previousMoves = [];
+let maxDepth = 6;
+let setupMode = false;
+let setupDisc = 1;
 function cpu() {
     let result = /*initSearchAlpha(board, searchDepth, playerColor)*/initSearchSort(board, searchDepth, playerColor);
     console.log(result)
