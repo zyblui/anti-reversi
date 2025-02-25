@@ -76,7 +76,7 @@ function pd(coord) {
     }
     //}, 100)
 }
-onmessage = function (e) {
+w.onmessage = function (e) {
     if (e.data.length == 2) pd(e.data);
 }
 function cpu() {
