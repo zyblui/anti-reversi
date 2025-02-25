@@ -28,7 +28,7 @@ let lastCoord = {
     y: 0
 }
 let previousMoves=[];
-let w=new Worker(/*"w.js"*/"javascript:onmessage=function(e){this.postMessage(cpu());}");
+let w=new Worker("w.js");
 function pd(coord) {
     let y = LETTERS.indexOf(coord[0]);
     let x = Number(coord[1]) - 1;
