@@ -33,6 +33,7 @@ let maxDepth = 6;
 let setupMode = false;
 let setupDisc = 1;
 function cpu() {
+    console.log(playerColor,computerColor)
     let result = /*initSearchAlpha(board, searchDepth, playerColor)*/initSearchSort(board, searchDepth, playerColor);
     console.log(result)
     let biggestValue = Math.max(...result.map((x) => x.evaluation))

@@ -156,7 +156,6 @@ function pd(coord) {
     console.log(boardStr);
     render();
     //setTimeout(function () {
-    console.log(computerColor,playerColor)
     if (computerColor == playerColor) {
         //cpu();
         w.postMessage("computerPlay");
