@@ -27,8 +27,8 @@ let lastCoord = {
     x: 0,/*1~8 */
     y: 0
 }
-let previousMoves=[];
-let w=new Worker("w.js");
+let previousMoves = [];
+let w = new Worker("w.js");
 function pd(coord) {
     let y = LETTERS.indexOf(coord[0]);
     let x = Number(coord[1]) - 1;
@@ -70,14 +70,14 @@ function pd(coord) {
     console.log(boardStr)
     render();
     //setTimeout(function () {
-        if (computerColor == playerColor) {
-            //cpu();
-            postMessage("computerPlay");
-        }
+    if (computerColor == playerColor) {
+        //cpu();
+        postMessage("computerPlay");
+    }
     //}, 100)
 }
-onmessage=function(e){
-    pd(e.data);
+onmessage = function (e) {
+    if (e.data.length == 2) pd(e.data);
 }
 function cpu() {
     let result = /*initSearchAlpha(board, searchDepth, playerColor)*/initSearchSort(board, searchDepth, playerColor);

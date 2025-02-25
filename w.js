@@ -1,3 +1,3 @@
 onmessage=function(e){
-    this.postMessage(cpu());
+    if(e.data=="computerPlay") this.postMessage(cpu());
 }
