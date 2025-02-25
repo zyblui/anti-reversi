@@ -1,5 +1,5 @@
 onmessage = function (e) {
-    if (e.data.type == "computerPlay") this.postMessage(self.cpu(board,depth,color));
+    if (e.data.type == "computerPlay") this.postMessage(self.cpu(e.data.board,e.data.depth,e.data.color));
 }
 function searchAlpha(currentMove, depth, color, playerColor, parentBestVal, clearNextMoves, isShallowSearch) {
     let currentBoard = currentMove.board;
