@@ -89,7 +89,7 @@ document.getElementById("startGameButton").addEventListener("click", function ()
         w.postMessage({
             type: "computerPlay",
             board: board,
-            sideToMove: playerColor,
+            color: playerColor,
             depth:searchDepth
         });
     }
@@ -199,7 +199,7 @@ function pd(coord) {
         w.postMessage({
             type: "computerPlay",
             board: board,
-            sideToMove: playerColor,
+            color: playerColor,
             depth:searchDepth
         });
     }
