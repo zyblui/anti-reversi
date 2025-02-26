@@ -36,7 +36,7 @@ onmessage = function (e) {
                     returnCount++;
                     resultArr.push(...event.data.nextMoves);
                     if (returnCount == 4) {
-                        cpu(resultArr);
+                        pd(cpu(resultArr));
                     }
                 }
             }
