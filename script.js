@@ -251,3 +251,14 @@ function directionalFlip(currentBoard, x, y, direction, color) {
         board: tempBoard
     };
 }
+function discCount(currentBoard) {
+    let discs = {
+        black: 0,
+        white: 0
+    };
+    for (let i of currentBoard.flat()) {
+        if (i == 1) discs.black++;
+        else if (i == -1) discs.white++;
+    }
+    return discs;
+}
