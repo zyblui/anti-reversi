@@ -32,7 +32,7 @@ onmessage = function (e) {
         threads=[new Worker("w.js"),new Worker("w.js"),new Worker("w.js"),new Worker("w.js")]
         initSearchSort(board, searchDepth, playerColor);
     } else if (e.data.type == "search") {
-        console.log("search");
+        console.log(e);
         postMessage({
             type: "searchReturn",
             nextMoves: searchAlpha(e.data.move, e.data.depth, e.data.color, e.data.color, +Infinity, false, false).nextMoves
