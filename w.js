@@ -9,6 +9,7 @@ let board = [
     [0, 0, 0, 0, 0, 0, 0, 0]
 ]
 let playerColor=1;
+let searchDepth = 6;
 const DIRECTIONS = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
 const LETTERS = ["a", "b", "c", "d", "e", "f", "g", "h"];
 const STATIC_TABLE = [
@@ -26,12 +27,12 @@ onmessage = function (e) {
     if (e.data.type == "computerPlay"){
         playerColor=e.data.color;
         board=e.data.board;
+        searchDepth=e.data.depth
         postMessage(cpu());
     }
 }
 
 function cpu() {
-    console.log(playerColor,computerColor)
     let result = /*initSearchAlpha(board, searchDepth, playerColor)*/initSearchSort(board, searchDepth, playerColor);
     console.log(result)
     let biggestValue = Math.max(...result.map((x) => x.evaluation))
