@@ -1,6 +1,27 @@
+let searchDepth = 6;
+let board = [
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, -1, 1, 0, 0, 0],
+    [0, 0, 0, 1, -1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0]
+]//1 for black, -1 for white
+let positionsConsidered = 0;
+let playerColor = 1;
+let computerColor = -1;
+let lastCoord = {
+    x: 0,/*1~8 */
+    y: 0
+}
+let previousMoves = [];
+let maxDepth = 6;
+let setupMode = false;
+let setupDisc = 1;
 let w = new Worker("w.js");
 w.onmessage = function (e) {
-    console.log(e.data)
     if (e.data.length == 2) pd(e.data);
 }
 render();
@@ -53,7 +74,11 @@ document.getElementById("setupClear").addEventListener("click", function () {
 document.getElementById("startGameButton").addEventListener("click", function () {
     if (playerColor == computerColor) {
         //cpu();
-        w.postMessage("computerPlay");
+        w.postMessage({
+            type: "computerPlay",
+            board: board,
+            sideToMove: playerColor
+        });
     }
 })
 document.getElementById("computerRoleBlack").addEventListener("click", function () {
@@ -158,7 +183,11 @@ function pd(coord) {
     //setTimeout(function () {
     if (computerColor == playerColor) {
         //cpu();
-        w.postMessage("computerPlay");
+        w.postMessage({
+            type: "computerPlay",
+            board: board,
+            sideToMove: playerColor
+        });
     }
     //}, 100)
 }
