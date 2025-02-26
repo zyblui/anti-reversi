@@ -226,8 +226,8 @@ function initSearchAlpha(currentBoard, depth, color) {
         lastColorPlayed: -color
     }, depth, color, color, +Infinity, false, false).nextMoves;
 }
+let threads = [new Worker("w.js"), new Worker("w.js"), new Worker("w.js"), new Worker("w.js")];
 function initSearchSort(currentBoard, depth, color) {//!
-    let threads = [new Worker("w.js"), new Worker("w.js"), new Worker("w.js"), new Worker("w.js")];
     let shallowResult = searchAlpha({
         board: currentBoard,
         nextMoves: [],
