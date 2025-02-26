@@ -233,3 +233,21 @@ function placeDisc(currentBoard, x, y, color) {
     }
     return { isValid: false }
 }
+function directionalFlip(currentBoard, x, y, direction, color) {
+    let tempBoard = JSON.parse(JSON.stringify(currentBoard))
+    let flipCounter = 0;
+    do {
+        flipCounter++;
+        if (!(x + direction[0] * flipCounter >= 0 && x + direction[0] * flipCounter <= 7 && y + direction[1] * flipCounter >= 0 && y + direction[1] *
+            flipCounter <= 7) || !tempBoard[x + direction[0] * flipCounter][y + direction[1] * flipCounter]) return { flip: false };
+    } while (tempBoard[x + direction[0] * flipCounter][y + direction[1] * flipCounter] == -color);
+    flipCounter--;
+    if (!flipCounter) return { flip: false };
+    for (let i = 1; i <= flipCounter; i++) {
+        tempBoard[x + direction[0] * i][y + direction[1] * i] = color;
+    }
+    return {
+        flip: true,
+        board: tempBoard
+    };
+}
