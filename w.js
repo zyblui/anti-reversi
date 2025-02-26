@@ -8,7 +8,7 @@ let board = [
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0]
 ]
-let playerColor=1;
+let playerColor = 1;
 let searchDepth = 6;
 const DIRECTIONS = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
 const LETTERS = ["a", "b", "c", "d", "e", "f", "g", "h"];
@@ -22,19 +22,30 @@ const STATIC_TABLE = [
     [48, -8, -16, 3, 3, -16, -8, 48],
     [-99, 48, -8, 6, 6, -8, 48, -99]
 ]
-
+let returnCount = 0, resultArr = [];
 onmessage = function (e) {
-    if (e.data.type == "computerPlay"){
-        playerColor=e.data.color;
-        board=e.data.board;
-        searchDepth=e.data.depth
-        postMessage(cpu());
+    if (e.data.type == "computerPlay") {
+        playerColor = e.data.color;
+        board = e.data.board;
+        searchDepth = e.data.depth
+        initSearchSort(board, searchDepth, playerColor);
+    } else if (e.data.type == "search") {
+        postMessage({
+            type: "searchReturn",
+            nextMoves: searchAlpha(e.data.move, e.data.depth, color, color, +Infinity, false, false).nextMoves
+        })
+    } else if (e.data.type == "searchReturn") {
+        returnCount++;
+        resultArr.push(...e.data.nextMoves);
+        if (returnCount == 4) {
+            cpu(...resultArr);
+        }
     }
 }
 
-function cpu() {
-    let result = /*initSearchAlpha(board, searchDepth, playerColor)*/initSearchSort(board, searchDepth, playerColor);
-    console.log(result)
+function cpu(result) {
+    //let result = /*initSearchAlpha(board, searchDepth, playerColor)*/initSearchSort(board, searchDepth, playerColor);
+    //console.log(result)
     let biggestValue = Math.max(...result.map((x) => x.evaluation))
     for (let r of result) {
         if (r.evaluation == biggestValue) {
@@ -215,6 +226,7 @@ function initSearchAlpha(currentBoard, depth, color) {
     }, depth, color, color, +Infinity, false, false).nextMoves;
 }
 function initSearchSort(currentBoard, depth, color) {//!
+    let threads = [new Worker("w.js"), new Worker("w.js"), new Worker("w.js"), new Worker("w.js")];
     let shallowResult = searchAlpha({
         board: currentBoard,
         nextMoves: [],
@@ -234,7 +246,27 @@ function initSearchSort(currentBoard, depth, color) {//!
     }
     shallowResult.evaluation = -Infinity;
     //Continue searching to the depth set
-    return searchAlpha(shallowResult, depth, color, color, +Infinity, false, false).nextMoves;
+    //return searchAlpha(shallowResult, depth, color, color, +Infinity, false, false).nextMoves;
+    let split = [[], [], [], []]
+    for (let i = 0; i < shallowResult.nextMoves.length; i++) {
+        if (i % 4 == 0) split[0].push(shallowResult.nextMoves[i]);
+        else if (i % 4 == 1) split[1].push(shallowResult.nextMoves[i]);
+        else if (i % 4 == 2) split[2].push(shallowResult.nextMoves[i]);
+        else split[3].push(shallowResult.nextMoves[i]);
+    }
+    for (let i = 0; i < 4; i++) {
+        threads[i].postMessage({
+            type: "search",
+            move: {
+                board: currentBoard,
+                nextMoves: split[i],
+                evaluation: -Infinity,
+                lastColorPlayed: -color
+            },
+            depth: depth,
+            color: color
+        });
+    }
 }
 function getStableDiscs(currentBoard) {
     let arr = [
