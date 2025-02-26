@@ -10,7 +10,7 @@ let board = [
 ]
 let playerColor = 1;
 let searchDepth = 6;
-let thread=[];
+let threads=[];
 const DIRECTIONS = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
 const LETTERS = ["a", "b", "c", "d", "e", "f", "g", "h"];
 const STATIC_TABLE = [
@@ -30,20 +30,23 @@ onmessage = function (e) {
         board = e.data.board;
         searchDepth = e.data.depth;
         threads=[new Worker("w.js"),new Worker("w.js"),new Worker("w.js"),new Worker("w.js")]
+        for(let i of threads){
+            i.onmessage=function(event){
+                if (event.data.type == "searchReturn") {
+                    returnCount++;
+                    resultArr.push(...event.data.nextMoves);
+                    if (returnCount == 4) {
+                        cpu(...resultArr);
+                    }
+                }
+            }
+        }
         initSearchSort(board, searchDepth, playerColor);
     } else if (e.data.type == "search") {
-        console.log(e);
         postMessage({
             type: "searchReturn",
             nextMoves: searchAlpha(e.data.move, e.data.depth, e.data.color, e.data.color, +Infinity, false, false).nextMoves
         })
-    } else if (e.data.type == "searchReturn") {
-        returnCount++;
-        console.log(returnCount)
-        resultArr.push(...e.data.nextMoves);
-        if (returnCount == 4) {
-            cpu(...resultArr);
-        }
     }
 }
 
