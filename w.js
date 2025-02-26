@@ -36,6 +36,7 @@ onmessage = function (e) {
         })
     } else if (e.data.type == "searchReturn") {
         returnCount++;
+        console.log(returnCount)
         resultArr.push(...e.data.nextMoves);
         if (returnCount == 4) {
             cpu(...resultArr);
