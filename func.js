@@ -1,3 +1,15 @@
+const DIRECTIONS = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
+const LETTERS = ["a", "b", "c", "d", "e", "f", "g", "h"];
+const STATIC_TABLE = [
+    [-99, 48, -8, 6, 6, -8, 48, -99],
+    [48, -8, -16, 3, 3, -16, -8, 48],
+    [-8, -16, 4, 4, 4, 4, -16, -8],
+    [6, 3, 4, 0, 0, 4, 3, 6],
+    [6, 3, 4, 0, 0, 4, 3, 6],
+    [-8, -16, 4, 4, 4, 4, -16, -8],
+    [48, -8, -16, 3, 3, -16, -8, 48],
+    [-99, 48, -8, 6, 6, -8, 48, -99]
+]
 function cpu() {
     console.log(playerColor,computerColor)
     let result = /*initSearchAlpha(board, searchDepth, playerColor)*/initSearchSort(board, searchDepth, playerColor);
