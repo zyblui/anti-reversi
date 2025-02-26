@@ -10,6 +10,7 @@ let board = [
 ]
 let playerColor = 1;
 let searchDepth = 6;
+let thread=[];
 const DIRECTIONS = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
 const LETTERS = ["a", "b", "c", "d", "e", "f", "g", "h"];
 const STATIC_TABLE = [
@@ -27,7 +28,8 @@ onmessage = function (e) {
     if (e.data.type == "computerPlay") {
         playerColor = e.data.color;
         board = e.data.board;
-        searchDepth = e.data.depth
+        searchDepth = e.data.depth;
+        threads=[new Worker("w.js"),new Worker("w.js"),new Worker("w.js"),new Worker("w.js")]
         initSearchSort(board, searchDepth, playerColor);
     } else if (e.data.type == "search") {
         postMessage({
@@ -226,7 +228,6 @@ function initSearchAlpha(currentBoard, depth, color) {
         lastColorPlayed: -color
     }, depth, color, color, +Infinity, false, false).nextMoves;
 }
-let threads = [new Worker("w.js"), new Worker("w.js"), new Worker("w.js"), new Worker("w.js")];
 function initSearchSort(currentBoard, depth, color) {//!
     let shallowResult = searchAlpha({
         board: currentBoard,
