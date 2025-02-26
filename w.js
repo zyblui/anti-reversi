@@ -32,7 +32,7 @@ onmessage = function (e) {
     } else if (e.data.type == "search") {
         postMessage({
             type: "searchReturn",
-            nextMoves: searchAlpha(e.data.move, e.data.depth, color, color, +Infinity, false, false).nextMoves
+            nextMoves: searchAlpha(e.data.move, e.data.depth, e.data.color, e.data.color, +Infinity, false, false).nextMoves
         })
     } else if (e.data.type == "searchReturn") {
         returnCount++;
