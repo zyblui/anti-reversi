@@ -38,6 +38,7 @@ onmessage = function (e) {
                     if (returnCount == 4) {
                         postMessage(cpu(resultArr));
                     }
+                    i.terminate();
                 }
             }
         }
