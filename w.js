@@ -257,11 +257,12 @@ function initSearchSort(currentBoard, depth, color) {//!
     //return searchAlpha(shallowResult, depth, color, color, +Infinity, false, false).nextMoves;
     let split = [[], [], [], []]
     for (let i = 0; i < shallowResult.nextMoves.length; i++) {
-        if (i % 4 == 0) split[0].push(shallowResult.nextMoves[i]);
-        else if (i % 4 == 1) split[1].push(shallowResult.nextMoves[i]);
-        else if (i % 4 == 2) split[2].push(shallowResult.nextMoves[i]);
+        if (i % 4 == 1) split[0].push(shallowResult.nextMoves[i]);
+        else if (i % 4 == 2) split[1].push(shallowResult.nextMoves[i]);
+        else if (i % 4 == 3) split[2].push(shallowResult.nextMoves[i]);
         else split[3].push(shallowResult.nextMoves[i]);
     }
+    console.log(split)
     for (let i = 0; i < 4; i++) {
         threads[i].postMessage({
             type: "search",
