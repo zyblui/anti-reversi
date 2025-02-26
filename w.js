@@ -8,9 +8,8 @@ let board = [
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0]
 ]
-let playerColor = 1;
+let playerColor=1;
 let searchDepth = 6;
-let threads=[];
 const DIRECTIONS = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
 const LETTERS = ["a", "b", "c", "d", "e", "f", "g", "h"];
 const STATIC_TABLE = [
@@ -23,38 +22,19 @@ const STATIC_TABLE = [
     [48, -8, -16, 3, 3, -16, -8, 48],
     [-99, 48, -8, 6, 6, -8, 48, -99]
 ]
-let returnCount = 0, resultArr = [];
+
 onmessage = function (e) {
-    if (e.data.type == "computerPlay") {
-        playerColor = e.data.color;
-        board = e.data.board;
-        searchDepth = e.data.depth;
-        threads=[new Worker("w.js"),new Worker("w.js"),new Worker("w.js"),new Worker("w.js")]
-        for(let i of threads){
-            i.onmessage=function(event){
-                if (event.data.type == "searchReturn") {
-                    returnCount++;
-                    resultArr.push(...event.data.nextMoves);
-                    if (returnCount == 4) {
-                        postMessage(cpu(resultArr));
-                        returnCount=0;
-                    }
-                    i.terminate();
-                }
-            }
-        }
-        initSearchSort(board, searchDepth, playerColor);
-    } else if (e.data.type == "search") {
-        postMessage({
-            type: "searchReturn",
-            nextMoves: searchAlpha(e.data.move, e.data.depth, e.data.color, e.data.color, +Infinity, false, false).nextMoves
-        })
+    if (e.data.type == "computerPlay"){
+        playerColor=e.data.color;
+        board=e.data.board;
+        searchDepth=e.data.depth
+        postMessage(cpu());
     }
 }
 
-function cpu(result) {
-    //let result = /*initSearchAlpha(board, searchDepth, playerColor)*/initSearchSort(board, searchDepth, playerColor);
-    //console.log(result)
+function cpu() {
+    let result = /*initSearchAlpha(board, searchDepth, playerColor)*/initSearchSort(board, searchDepth, playerColor);
+    console.log(result)
     let biggestValue = Math.max(...result.map((x) => x.evaluation))
     for (let r of result) {
         if (r.evaluation == biggestValue) {
@@ -254,28 +234,7 @@ function initSearchSort(currentBoard, depth, color) {//!
     }
     shallowResult.evaluation = -Infinity;
     //Continue searching to the depth set
-    //return searchAlpha(shallowResult, depth, color, color, +Infinity, false, false).nextMoves;
-    let split = [[], [], [], []]
-    for (let i = 0; i < shallowResult.nextMoves.length; i++) {
-        if (i % 4 == 1) split[0].push(shallowResult.nextMoves[i]);
-        else if (i % 4 == 2) split[1].push(shallowResult.nextMoves[i]);
-        else if (i % 4 == 3) split[2].push(shallowResult.nextMoves[i]);
-        else split[3].push(shallowResult.nextMoves[i]);
-    }
-    console.log(split)
-    for (let i = 0; i < 4; i++) {
-        threads[i].postMessage({
-            type: "search",
-            move: {
-                board: currentBoard,
-                nextMoves: split[i],
-                evaluation: -Infinity,
-                lastColorPlayed: -color
-            },
-            depth: depth,
-            color: color
-        });
-    }
+    return searchAlpha(shallowResult, depth, color, color, +Infinity, false, false).nextMoves;
 }
 function getStableDiscs(currentBoard) {
     let arr = [

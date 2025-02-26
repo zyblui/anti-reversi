@@ -34,7 +34,7 @@ const STATIC_TABLE = [
 ]
 let w = new Worker("w.js");
 w.onmessage = function (e) {
-    if (typeof e.data == "string") pd(e.data);
+    if (e.data.length == 2) pd(e.data);
 }
 render();
 for (let i = 0; i <= 7; i++) {
