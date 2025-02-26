@@ -20,6 +20,18 @@ let previousMoves = [];
 let maxDepth = 6;
 let setupMode = false;
 let setupDisc = 1;
+const DIRECTIONS = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
+const LETTERS = ["a", "b", "c", "d", "e", "f", "g", "h"];
+const STATIC_TABLE = [
+    [-99, 48, -8, 6, 6, -8, 48, -99],
+    [48, -8, -16, 3, 3, -16, -8, 48],
+    [-8, -16, 4, 4, 4, 4, -16, -8],
+    [6, 3, 4, 0, 0, 4, 3, 6],
+    [6, 3, 4, 0, 0, 4, 3, 6],
+    [-8, -16, 4, 4, 4, 4, -16, -8],
+    [48, -8, -16, 3, 3, -16, -8, 48],
+    [-99, 48, -8, 6, 6, -8, 48, -99]
+]
 let w = new Worker("w.js");
 w.onmessage = function (e) {
     if (e.data.length == 2) pd(e.data);
@@ -190,4 +202,34 @@ function pd(coord) {
         });
     }
     //}, 100)
+}
+function validMovesArr() {
+    let situations = []
+    for (let m = 0; m <= 7; m++) {
+        for (let n = 0; n <= 7; n++) {
+            let placeResult = placeDisc(board, m, n, playerColor);
+            if (placeResult.isValid) {
+                situations.push(m * 8 + n)
+            }
+        }
+    }
+    return situations;
+}
+function placeDisc(currentBoard, x, y, color) {
+    let tempBoard = JSON.parse(JSON.stringify(currentBoard))
+    if (tempBoard[x][y]) return { isValid: false };
+    let isValidMove = false;
+    for (let i of DIRECTIONS) {
+        let dirFlip = directionalFlip(tempBoard, x, y, i, color);
+        isValidMove = isValidMove || dirFlip.flip;
+        if (dirFlip.flip) tempBoard = dirFlip.board;
+    }
+    if (isValidMove) {
+        tempBoard[x][y] = color;
+        return {
+            isValid: true,
+            board: tempBoard
+        }
+    }
+    return { isValid: false }
 }
