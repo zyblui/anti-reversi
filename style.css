@@ -316,6 +316,17 @@ body {
 
 #notation>span {
     counter-increment: moveNo;
+
+    &>span {
+        display: inline-block;
+        border-radius:3px;
+        &:hover{
+            background-color:gray;
+        }
+        &::after {
+            content: " "
+        }
+    }
 }
 
 #notation>span::before {
