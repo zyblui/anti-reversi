@@ -43,9 +43,26 @@ const STATIC_TABLE = [
     [48, -8, -16, 3, 3, -16, -8, 48],
     [-99, 48, -8, 6, 6, -8, 48, -99]
 ]
+for (let i of document.querySelectorAll(".tab")) {
+    i.addEventListener("click", function () {
+        document.querySelector(".tab.selected").classList.remove("selected");
+        i.classList.add("selected");
+        document.querySelector(".tab-content.show").classList.remove("show");
+        document.querySelector(`.tab-content[data-for='${i.dataset.for}']`).classList.add("show");
+    })
+}
 let w = new Worker("w.js");
 w.onmessage = function (e) {
-    if (e.data.length == 2) pd(e.data);
+    if (e.data.type == "analysis") {
+        document.getElementById("analysisPanel").innerHTML = ""
+        for (let i of e.data.analysis) {
+            let text = document.createTextNode(i.evaluation + " " + i.coord)
+            document.getElementById("analysisPanel").appendChild(text);
+            let hr=document.createElement("hr");
+            document.getElementById("analysisPanel").appendChild(hr);
+        }
+        pd(e.data.analysis[0].coord);
+    }
 }
 for (let i = 0; i <= 7; i++) {
     for (let j = 0; j <= 7; j++) {

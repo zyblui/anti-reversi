@@ -8,7 +8,7 @@ let board = [
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0]
 ]
-let playerColor=1;
+let playerColor = 1;
 let searchDepth = 6;
 const DIRECTIONS = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
 const LETTERS = ["a", "b", "c", "d", "e", "f", "g", "h"];
@@ -24,31 +24,50 @@ const STATIC_TABLE = [
 ]
 
 onmessage = function (e) {
-    if (e.data.type == "computerPlay"){
-        playerColor=e.data.color;
-        board=e.data.board;
-        searchDepth=e.data.depth
-        postMessage(cpu());
+    if (e.data.type == "computerPlay") {
+        playerColor = e.data.color;
+        board = e.data.board;
+        searchDepth = e.data.depth
+        postMessage({
+            type: "analysis",
+            analysis: cpu()
+        });
     }
 }
 
 function cpu() {
     let result = /*initSearchAlpha(board, searchDepth, playerColor)*/initSearchSort(board, searchDepth, playerColor);
     console.log(result)
-    let biggestValue = Math.max(...result.map((x) => x.evaluation))
+    result.sort(function (a, b) {
+        return b.evaluation - a.evaluation;
+    });
+    result = result.slice(0, 3);
+    /*let biggestValue = Math.max(...result.map((x) => x.evaluation))
     for (let r of result) {
         if (r.evaluation == biggestValue) {
             for (let i = 0; i <= 7; i++) {
                 for (let j = 0; j <= 7; j++) {
                     if (board[i][j] == 0 && r.board[i][j] != 0) {
-                        /*pd(LETTERS[j] + (i + 1));
-                        return;*/
                         return LETTERS[j] + (i + 1);
                     }
                 }
             }
         }
+    }*/
+    let analysis = []
+    for (let r of result) {
+        for (let i = 0; i <= 7; i++) {
+            for (let j = 0; j <= 7; j++) {
+                if (board[i][j] == 0 && r.board[i][j] != 0) {
+                    analysis.push({
+                        coord: LETTERS[j] + (i + 1),
+                        evaluation: r.evaluation/5.5
+                    });
+                }
+            }
+        }
     }
+    return analysis;
 }
 function placeDisc(currentBoard, x, y, color) {
     let tempBoard = JSON.parse(JSON.stringify(currentBoard))
