@@ -328,9 +328,11 @@ body {
             background-color: #303134;
             cursor: pointer;
         }
-        &.navigationPosition{
+
+        &.navigationPosition {
             background-color: #303134;
-            &:hover{
+
+            &:hover {
                 background-color: #35383C;
             }
         }
@@ -352,32 +354,42 @@ body {
         background-color: #2C2E33;
     }
 }
-.tab{
-    width:calc(50% - 3px);
+
+.tab {
+    width: calc(50% - 3px);
     display: inline-block;
-    border-bottom:solid 3px #373A40;
+    border-bottom: solid 3px #373A40;
     text-align: center;
     font-size: 16px;
     line-height: 1;
     padding-top: 7px;
     padding-bottom: 7px;
-    color:#C1C2C5;
-    &.selected{
-        border-bottom:solid 3px #1971C2;
+    color: #C1C2C5;
+
+    &.selected {
+        border-bottom: solid 3px #1971C2;
     }
 }
-.tab-content:not(.show){
+
+.tab-content:not(.show) {
     display: none;
 }
-.analysis-line span{
-    display:inline-block;
-    font-family:Consolas,monospace;
-    padding:5px;
+
+.analysis-line span {
+    display: inline-block;
+    font-family: Consolas, monospace;
+    padding: 5px;
+    border-radius: 5px;
+    margin-bottom: 3px;
     background-color: #C1C2C5;
-    &.black{
+
+    &.black {
         background-color: black;
+        color: white;
     }
-    &.white{
+
+    &.white {
         background-color: white;
+        color: black
     }
 }
