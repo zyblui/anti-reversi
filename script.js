@@ -190,9 +190,9 @@ function render() {
 function navigate(moveNo, side/*0,1*/) {
     board = JSON.parse(JSON.stringify(initialPosition));
     if (moveNo == -1) {
-        lastCoord={
-            x:0,
-            y:0
+        lastCoord = {
+            x: 0,
+            y: 0
         }
     } else {
         for (let i = 0; i < moveNo; i++) {
@@ -214,6 +214,8 @@ function navigate(moveNo, side/*0,1*/) {
         }
     }
     navigationPosition = [moveNo, side];
+    if (side == 1) playerColor = -1;
+    else playerColor = 1;
     render();
 }
 function pd(coord) {
@@ -353,4 +355,19 @@ document.getElementById("nextMove").addEventListener("click", function () {
 })
 document.getElementById("lastMove").addEventListener("click", function () {
     navigate(previousMoves.length - 1, ((previousMoves[previousMoves.length - 1]) ? 1 : 0));
+});
+document.addEventListener("keydown", function (e) {
+    switch (e.key) {
+        case "ArrowLeft":
+            document.getElementById("previousMove").click();
+            break;
+        case "ArrowRight":
+            document.getElementById("nextMove").click();
+            break;
+        case "ArrowUp":
+            document.getElementById("toStartPosition").click();
+            break;
+        case "ArrowDown":
+            document.getElementById("lastMove").click();
+    }
 })
