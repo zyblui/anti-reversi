@@ -322,6 +322,7 @@ body {
         display: inline-block;
         border-radius: 5px;
         font-weight: 500;
+        padding: 5px;
 
         &:hover {
             background-color: #303134;
@@ -334,4 +335,14 @@ body {
     content: counter(moveNo)". ";
     color: #C1C2C5;
     font-size: 14px
+}
+
+#bottomButtons button {
+    width: calc(25% - 4.8px);
+    background-color: #25262B;
+    border: solid 2px #373A40;
+
+    &:hover {
+        background-color: #2C2E33;
+    }
 }
