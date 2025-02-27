@@ -184,7 +184,7 @@ function render() {
             navigate(i, 1);
         })
     }
-    document.querySelector(".navigationPosition").classList.remove("navigationPosition");
+    if(document.querySelector(".navigationPosition"))document.querySelector(".navigationPosition").classList.remove("navigationPosition");
     if (document.getElementById("notation").children[navigationPosition[0]]) document.getElementById("notation").children[navigationPosition[0]].children[navigationPosition[1]].classList.add("navigationPosition");
 }
 function navigate(moveNo, side/*0,1*/) {
