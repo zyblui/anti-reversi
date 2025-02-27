@@ -166,11 +166,19 @@ function render() {
     if (lastCoord.x != 0) document.querySelector(".r" + lastCoord.x + ".c" + lastCoord.y).classList.add("lastMove");
     document.getElementById("notation").innerHTML = ""
     for (let i = 0; i < previousMoves.length; i++) {
-        document.getElementById("notation").innerHTML += (`<span><span>${previousMoves[i][0]}</span> <span>${previousMoves[i][1]}</span></span> `);
-        document.getElementById("notation").children[document.getElementById("notation").children.length-1].children[0].addEventListener("click", function () {
+        let span1=document.createElement("span");
+        span1.innerText=previousMoves[i][0];
+        let span2=document.createElement("span");
+        span2.innerText=previousMoves[i][1];
+        let spanContainer=document.createElement("span");
+        spanContainer.appendChild(span1);
+        spanContainer.appendChild(span2);
+        document.getElementById("notation").appendChild(spanContainer);
+        //document.getElementById("notation").innerHTML += (`<span><span>${previousMoves[i][0]}</span> <span>${previousMoves[i][1]}</span></span> `);
+        span1.addEventListener("click", function () {
             navigate(i, 0);
         });
-        document.getElementById("notation").children[document.getElementById("notation").children.length-1].children[1].addEventListener("click", function () {
+        span2.addEventListener("click", function () {
             navigate(i, 1);
         })
     }
