@@ -56,9 +56,16 @@ w.onmessage = function (e) {
     if (e.data.type == "analysis") {
         document.getElementById("analysisPanel").innerHTML = ""
         for (let i of e.data.analysis) {
-            let text = document.createTextNode(i.evaluation + " " + i.coord)
-            document.getElementById("analysisPanel").appendChild(text);
-            let hr=document.createElement("hr");
+            let analysisLine = document.createElement("div");
+            analysisLine.classList.add("analysis-line")
+            let evaluationSpan = document.createElement("span");
+            evaluationSpan.innerText = ((i.evaluation >= 0) ? "+" : "") + (i.evaluation / 5.5).toFixed(1);
+            evaluationSpan.classList.add(((i.evaluation >= 0) != (playerColor == 1)) ? "black" : "white");
+            analysisLine.appendChild(evaluationSpan);
+            let text = document.createTextNode(" " + i.coord)
+            analysisLine.appendChild(text);
+            document.getElementById("analysisPanel").appendChild(analysisLine);
+            let hr = document.createElement("hr");
             document.getElementById("analysisPanel").appendChild(hr);
         }
         pd(e.data.analysis[0].coord);

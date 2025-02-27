@@ -369,3 +369,15 @@ body {
 .tab-content:not(.show){
     display: none;
 }
+.analysis-line span{
+    display:inline-block;
+    font-family:Consolas,monospace;
+    padding:5px;
+    background-color: #C1C2C5;
+    &.black{
+        background-color: black;
+    }
+    &.white{
+        background-color: white;
+    }
+}
