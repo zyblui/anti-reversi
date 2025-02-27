@@ -323,9 +323,6 @@ body {
         &:hover{
             background-color:gray;
         }
-        &::after {
-            content: " "
-        }
     }
 }
 
