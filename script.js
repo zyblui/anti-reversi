@@ -184,7 +184,7 @@ function render() {
             navigate(i, 1);
         })
     }
-    if(document.querySelector(".navigationPosition"))document.querySelector(".navigationPosition").classList.remove("navigationPosition");
+    if (document.querySelector(".navigationPosition")) document.querySelector(".navigationPosition").classList.remove("navigationPosition");
     if (document.getElementById("notation").children[navigationPosition[0]]) document.getElementById("notation").children[navigationPosition[0]].children[navigationPosition[1]].classList.add("navigationPosition");
 }
 function navigate(moveNo, side/*0,1*/) {
@@ -231,6 +231,7 @@ function pd(coord) {
         if (playerColor == 1) previousMoves = [[coord, ""]]
         else previousMoves = [["--", coord]];
     }
+    navigationPosition = [previousMoves.length - 1,]
     playerColor = -playerColor;
     if (!validMovesArr().length) playerColor = -playerColor;
     if (playerColor == 1) {
@@ -330,3 +331,19 @@ function discCount(currentBoard) {
     return discs;
 }
 render();
+document.getElementById("toStartPosition").addEventListener("click", function () {
+    navigate(-1, 1);
+})
+document.getElementById("previousMove").addEventListener("click", function () {
+    if (navigationPosition[1] == 1 && navigationPosition[0] >= 0) navigate(navigationPosition[0], 0)
+    else if (navigationPosition[1] == 0) navigate(navigationPosition[0] - 1, 1);
+})
+document.getElementById("nextMove").addEventListener("click", function () {
+    if (navigationPosition[1] == 0) {
+        if (previousMoves[navigationPosition[0]][1] != "") navigate(navigationPosition[0], 1);
+    }
+    else if (previousMoves[navigationPosition[0] + 1]) navigate(navigationPosition[0] + 1, 0);
+})
+document.getElementById("lastMove").addEventListener("click", function () {
+    navigate(previousMoves.length - 1, ((previousMoves[previousMoves.length - 1]) ? 1 : 0));
+})
