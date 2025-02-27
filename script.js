@@ -214,8 +214,8 @@ function navigate(moveNo, side/*0,1*/) {
         }
     }
     navigationPosition = [moveNo, side];
-    if (side == 1) playerColor = -1;
-    else playerColor = 1;
+    if (side == 1) playerColor = 1;
+    else playerColor = -1;
     render();
 }
 function pd(coord) {
