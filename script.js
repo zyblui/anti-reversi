@@ -59,8 +59,8 @@ w.onmessage = function (e) {
             let analysisLine = document.createElement("div");
             analysisLine.classList.add("analysis-line")
             let evaluationSpan = document.createElement("span");
-            evaluationSpan.innerText = ((i.evaluation >= 0) ? "+" : "") + (i.evaluation / 5.5).toFixed(1);
-            evaluationSpan.classList.add(((i.evaluation >= 0) != (playerColor == 1)) ? "black" : "white");
+            evaluationSpan.innerText = ((i.evaluation >= 0) ? "+" : "") + i.evaluation.toFixed(1);
+            evaluationSpan.classList.add(((i.evaluation >= 0) == (playerColor == 1)) ? "black" : "white");
             analysisLine.appendChild(evaluationSpan);
             let text = document.createTextNode(" " + i.coord)
             analysisLine.appendChild(text);

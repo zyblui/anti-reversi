@@ -374,11 +374,13 @@ body {
 .tab-content:not(.show) {
     display: none;
 }
-
+.analysis-line{
+    font-size:16px
+}
 .analysis-line span {
     display: inline-block;
     font-family: Consolas, monospace;
-    padding: 5px;
+    padding: 9px;
     border-radius: 5px;
     margin-bottom: 3px;
     background-color: #C1C2C5;
