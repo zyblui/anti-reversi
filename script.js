@@ -20,6 +20,7 @@ let initialPosition = [
     [0, 0, 0, 0, 0, 0, 0, 0]
 ];
 let previousMoves = [];
+let navigationPosition = [0, 0];
 let positionsConsidered = 0;
 let playerColor = 1;
 let computerColor = -1;
@@ -46,7 +47,6 @@ let w = new Worker("w.js");
 w.onmessage = function (e) {
     if (e.data.length == 2) pd(e.data);
 }
-render();
 for (let i = 0; i <= 7; i++) {
     for (let j = 0; j <= 7; j++) {
         document.querySelector(".r" + (i + 1) + ".c" + (j + 1)).addEventListener("click", function () {
@@ -209,7 +209,6 @@ function navigate(moveNo, side/*0,1*/) {
     navigationPosition = [moveNo, side];
     render();
 }
-let navigationPosition = [0, 0];
 function pd(coord) {
     let y = LETTERS.indexOf(coord[0]);
     let x = Number(coord[1]) - 1;
@@ -330,3 +329,4 @@ function discCount(currentBoard) {
     }
     return discs;
 }
+render();
