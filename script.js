@@ -19,7 +19,7 @@ let initialPosition = [
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0]
 ];
-let previousMoves = [["a1", "a2"]];
+let previousMoves = [];
 let positionsConsidered = 0;
 let playerColor = 1;
 let computerColor = -1;
