@@ -172,11 +172,11 @@ function render() {
         span2.innerText=previousMoves[i][1];
         let spanContainer=document.createElement("span");
         spanContainer.appendChild(span1);
-        spanContainer.innerHTML+=" ";
+        let text=document.createTextNode(" ");
+        spanContainer.appendChild(text);
         spanContainer.appendChild(span2);
-        spanContainer.innerHTML+=" ";
+        spanContainer.appendChild(text.cloneNode(false));
         document.getElementById("notation").appendChild(spanContainer);
-        //document.getElementById("notation").innerHTML += (`<span><span>${previousMoves[i][0]}</span> <span>${previousMoves[i][1]}</span></span> `);
         span1.addEventListener("click", function () {
             navigate(i, 0);
         });
