@@ -167,10 +167,10 @@ function render() {
     document.getElementById("notation").innerHTML = ""
     for (let i = 0; i < previousMoves.length; i++) {
         document.getElementById("notation").innerHTML += (`<span><span>${previousMoves[i][0]}</span> <span>${previousMoves[i][1]}</span></span> `);
-        document.getElementById("notation").lastChild[0].addEventListener("click", function () {
+        document.getElementById("notation").lastChild.childNodes[0].addEventListener("click", function () {
             navigate(i, 0);
         });
-        document.getElementById("notation").lastChild[1].addEventListener("click", function () {
+        document.getElementById("notation").lastChild.childNodes[1].addEventListener("click", function () {
             navigate(i, 1);
         })
     }
