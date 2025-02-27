@@ -177,13 +177,12 @@ function render() {
 }
 function navigate(moveNo, side/*0,1*/) {
     board = JSON.parse(JSON.stringify(initialPosition));
-    //placeDisc(board,)
     for (let i = 0; i < moveNo; i++) {
-        if (previousMoves[i][0] && previousMoves[i][0] != "--") placeDisc(board, LETTERS.indexOf(previousMoves[i][0][0]), Number(previousMoves[i][0][1]) - 1, 1);
-        if (previousMoves[i][1] && previousMoves[i][1] != "--") placeDisc(board, LETTERS.indexOf(previousMoves[i][1][0]), Number(previousMoves[i][1][1]) - 1, -1);
+        if (previousMoves[i][0] && previousMoves[i][0] != "--") board = placeDisc(board, LETTERS.indexOf(previousMoves[i][0][0]), Number(previousMoves[i][0][1]) - 1, 1).board;
+        if (previousMoves[i][1] && previousMoves[i][1] != "--") board = placeDisc(board, LETTERS.indexOf(previousMoves[i][1][0]), Number(previousMoves[i][1][1]) - 1, -1).board;
     }
-    if (previousMoves[moveNo][0] && previousMoves[moveNo][0] != "--") placeDisc(board, LETTERS.indexOf(previousMoves[moveNo][0][0]), Number(previousMoves[moveNo][0][1]) - 1, 1);
-    if (side == 1 && previousMoves[moveNo][1] && previousMoves[moveNo][1] != "--") placeDisc(board, LETTERS.indexOf(previousMoves[moveNo][1][0]), Number(previousMoves[moveNo][1][1]) - 1, -1);
+    if (previousMoves[moveNo][0] && previousMoves[moveNo][0] != "--") board = placeDisc(board, LETTERS.indexOf(previousMoves[moveNo][0][0]), Number(previousMoves[moveNo][0][1]) - 1, 1).board;
+    if (side == 1 && previousMoves[moveNo][1] && previousMoves[moveNo][1] != "--") board = placeDisc(board, LETTERS.indexOf(previousMoves[moveNo][1][0]), Number(previousMoves[moveNo][1][1]) - 1, -1).board;
     render();
 }
 function pd(coord) {
