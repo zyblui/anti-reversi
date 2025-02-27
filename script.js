@@ -189,21 +189,28 @@ function render() {
 }
 function navigate(moveNo, side/*0,1*/) {
     board = JSON.parse(JSON.stringify(initialPosition));
-    for (let i = 0; i < moveNo; i++) {
-        if (previousMoves[i][0] && previousMoves[i][0] != "--") board = placeDisc(board, Number(previousMoves[i][0][1]) - 1, LETTERS.indexOf(previousMoves[i][0][0]), 1).board;
-        if (previousMoves[i][1] && previousMoves[i][1] != "--") board = placeDisc(board, Number(previousMoves[i][1][1]) - 1, LETTERS.indexOf(previousMoves[i][1][0]), -1).board;
-    }
-    if (previousMoves[moveNo][0] && previousMoves[moveNo][0] != "--") board = placeDisc(board, Number(previousMoves[moveNo][0][1]) - 1, LETTERS.indexOf(previousMoves[moveNo][0][0]), 1).board;
-    if (side == 1 && previousMoves[moveNo][1] && previousMoves[moveNo][1] != "--") board = placeDisc(board, Number(previousMoves[moveNo][1][1]) - 1, LETTERS.indexOf(previousMoves[moveNo][1][0]), -1).board;
-    if (previousMoves[moveNo][side] != "--") {
-        lastCoord = {
-            x: Number(previousMoves[moveNo][side][1]),
-            y: LETTERS.indexOf(previousMoves[moveNo][side][0]) + 1
+    if (moveNo == -1) {
+        lastCoord={
+            x:0,
+            y:0
         }
     } else {
-        lastCoord = {
-            x: 0,
-            y: 0
+        for (let i = 0; i < moveNo; i++) {
+            if (previousMoves[i][0] && previousMoves[i][0] != "--") board = placeDisc(board, Number(previousMoves[i][0][1]) - 1, LETTERS.indexOf(previousMoves[i][0][0]), 1).board;
+            if (previousMoves[i][1] && previousMoves[i][1] != "--") board = placeDisc(board, Number(previousMoves[i][1][1]) - 1, LETTERS.indexOf(previousMoves[i][1][0]), -1).board;
+        }
+        if (previousMoves[moveNo][0] && previousMoves[moveNo][0] != "--") board = placeDisc(board, Number(previousMoves[moveNo][0][1]) - 1, LETTERS.indexOf(previousMoves[moveNo][0][0]), 1).board;
+        if (side == 1 && previousMoves[moveNo][1] && previousMoves[moveNo][1] != "--") board = placeDisc(board, Number(previousMoves[moveNo][1][1]) - 1, LETTERS.indexOf(previousMoves[moveNo][1][0]), -1).board;
+        if (previousMoves[moveNo][side] != "--") {
+            lastCoord = {
+                x: Number(previousMoves[moveNo][side][1]),
+                y: LETTERS.indexOf(previousMoves[moveNo][side][0]) + 1
+            }
+        } else {
+            lastCoord = {
+                x: 0,
+                y: 0
+            }
         }
     }
     navigationPosition = [moveNo, side];
@@ -231,7 +238,7 @@ function pd(coord) {
         if (playerColor == 1) previousMoves = [[coord, ""]]
         else previousMoves = [["--", coord]];
     }
-    navigationPosition = [previousMoves.length - 1,((playerColor==1)?0:1)]
+    navigationPosition = [previousMoves.length - 1, ((playerColor == 1) ? 0 : 1)]
     playerColor = -playerColor;
     if (!validMovesArr().length) playerColor = -playerColor;
     if (playerColor == 1) {
