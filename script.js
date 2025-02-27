@@ -166,11 +166,11 @@ function render() {
     if (lastCoord.x != 0) document.querySelector(".r" + lastCoord.x + ".c" + lastCoord.y).classList.add("lastMove");
     document.getElementById("notation").innerHTML = ""
     for (let i = 0; i < previousMoves.length; i++) {
-        let span1=document.createElement("span");
-        span1.innerText=previousMoves[i][0];
-        let span2=document.createElement("span");
-        span2.innerText=previousMoves[i][1];
-        let spanContainer=document.createElement("span");
+        let span1 = document.createElement("span");
+        span1.innerText = previousMoves[i][0];
+        let span2 = document.createElement("span");
+        span2.innerText = previousMoves[i][1];
+        let spanContainer = document.createElement("span");
         spanContainer.appendChild(span1);
         spanContainer.appendChild(span2);
         document.getElementById("notation").appendChild(spanContainer);
@@ -215,7 +215,8 @@ function pd(coord) {
             else previousMoves.push(["--", coord]);
         }
     } else {
-        previousMoves = [[coord, ""]]
+        if(playerColor==1)previousMoves = [[coord, ""]]
+        else previousMoves = [["--",coord]];
     }
     playerColor = -playerColor;
     if (!validMovesArr().length) playerColor = -playerColor;
