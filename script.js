@@ -231,7 +231,7 @@ function pd(coord) {
         if (playerColor == 1) previousMoves = [[coord, ""]]
         else previousMoves = [["--", coord]];
     }
-    navigationPosition = [previousMoves.length - 1,]
+    navigationPosition = [previousMoves.length - 1,((playerColor==1)?0:1)]
     playerColor = -playerColor;
     if (!validMovesArr().length) playerColor = -playerColor;
     if (playerColor == 1) {
