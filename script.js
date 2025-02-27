@@ -165,9 +165,26 @@ function render() {
     if (document.querySelector(".lastMove")) document.querySelector(".lastMove").classList.remove("lastMove")
     if (lastCoord.x != 0) document.querySelector(".r" + lastCoord.x + ".c" + lastCoord.y).classList.add("lastMove");
     document.getElementById("notation").innerHTML = ""
-    for (let element of previousMoves) {
-        document.getElementById("notation").innerHTML += ("<span>" + element[0] + " " + element[1] + "</span>");
+    for (let i = 0; i < previousMoves.length; i++) {
+        document.getElementById("notation").innerHTML += (`<span><span>${previousMoves[i][0]}</span> <span>${previousMoves[i][1]}</span></span> `);
+        document.getElementById("notation").lastChild[0].addEventListener("click", function () {
+            navigate(i, 0);
+        });
+        document.getElementById("notation").lastChild[1].addEventListener("click", function () {
+            navigate(i, 1);
+        })
     }
+}
+function navigate(moveNo, side/*0,1*/) {
+    board = JSON.parse(JSON.stringify(initialPosition));
+    //placeDisc(board,)
+    for (let i = 0; i < moveNo; i++) {
+        if (previousMoves[i][0] && previousMoves[i][0] != "--") placeDisc(board, LETTERS.indexOf(previousMoves[i][0][0]), Number(previousMoves[i][0][1]) - 1, 1);
+        if (previousMoves[i][1] && previousMoves[i][1] != "--") placeDisc(board, LETTERS.indexOf(previousMoves[i][1][0]), Number(previousMoves[i][1][1]) - 1, -1);
+    }
+    if (previousMoves[moveNo][0] && previousMoves[moveNo][0] != "--") placeDisc(board, LETTERS.indexOf(previousMoves[moveNo][0][0]), Number(previousMoves[moveNo][0][1]) - 1, 1);
+    if (side == 1 && previousMoves[moveNo][1] && previousMoves[moveNo][1] != "--") placeDisc(board, LETTERS.indexOf(previousMoves[moveNo][1][0]), Number(previousMoves[moveNo][1][1]) - 1, -1);
+    render();
 }
 function pd(coord) {
     let y = LETTERS.indexOf(coord[0]);
@@ -241,7 +258,7 @@ function validMovesArr() {
     }
     return situations;
 }
-function placeDisc(currentBoard, x, y, color) {
+function placeDisc(currentBoard, x, y/*0~7 */, color) {
     let tempBoard = JSON.parse(JSON.stringify(currentBoard))
     if (tempBoard[x][y]) return { isValid: false };
     let isValidMove = false;
