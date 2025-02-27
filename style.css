@@ -69,7 +69,7 @@
     left: 490px
 }
 
-.black::before {
+.grid.black::before {
     content: "";
     display: block;
     width: 56px;
@@ -82,7 +82,7 @@
     left: 5px;
 }
 
-.white::before {
+.grid.white::before {
     content: "";
     display: block;
     width: 56px;
