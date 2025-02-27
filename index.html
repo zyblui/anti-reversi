@@ -92,61 +92,67 @@
                 <div class="tab-content show" data-for="general">
                     <div class="line">
                         <button id="startGameButton">Start Game</button>
-                        <button id="setupButton">Setup Board</button>
+                        <button id="setupClear">Clear</button>
                     </div>
                     <div class="line">
-                        <label>
-                            <input type="radio" checked="checked" name="sideToMove" id="sideToMoveBlack" />
-                            <div>Black</div>
-                        </label>
-                        <label>
-                            <input type="radio" name="sideToMove" id="sideToMoveWhite" />
-                            <div>White</div>
-                        </label>
-                        to move
-                    </div>
-                    <div class="line">Computer plays <label><input type="radio" name="computerRole"
-                                id="computerRoleBlack" />
-                            <div>Black</div>
-                        </label>
-                        <label><input type="radio" checked="checked" name="computerRole" id="computerRoleWhite" />
-                            <div>White</div>
-                        </label>
-                        <label><input type="radio" name="computerRole" id="computerRoleNeither" />
-                            <div>Neither</div>
-                        </label>
-                    </div>
-                    <div class="line">Search Depth <label><input type="radio" checked="checked" name="searchDepth"
-                                id="searchDepth6" />
-                            <div>6 moves</div>
-                        </label>
-                        <label><input type="radio" name="searchDepth" id="searchDepth8" />
-                            <div>8
-                                moves</div>
-                        </label>
-                    </div>
-                    <div class="line">
-                        <h2>Setup Board</h2>
-                        <hr />
-                        <div>
-                            Disc type <label>
-                                <input type="radio" checked="checked" id="setupBlack" name="discType" />
+                        <div class="toggle">
+                            <label>
+                                <input type="radio" checked="checked" name="sideToMove" id="sideToMoveBlack" />
                                 <div>Black</div>
                             </label>
                             <label>
-                                <input type="radio" id="setupWhite" name="discType" />
+                                <input type="radio" name="sideToMove" id="sideToMoveWhite" />
                                 <div>White</div>
                             </label>
-                            <label>
-                                <input type="radio" id="setupErase" name="discType" />
-                                <div>Erase Disc</div>
+                        </div>
+                        to move
+                    </div>
+                    <div class="line">Computer plays
+                        <div class="toggle"><label><input type="radio" name="computerRole" id="computerRoleBlack" />
+                                <div>Black</div>
+                            </label>
+                            <label><input type="radio" checked="checked" name="computerRole" id="computerRoleWhite" />
+                                <div>White</div>
+                            </label>
+                            <label><input type="radio" name="computerRole" id="computerRoleNeither" />
+                                <div>Neither</div>
                             </label>
                         </div>
                     </div>
-                    <button id="setupClear">Clear</button>
+                    <div class="line">Search Depth
+                        <div class="toggle"><label><input type="radio" checked="checked" name="searchDepth"
+                                    id="searchDepth6" />
+                                <div>6 moves</div>
+                            </label>
+                            <label><input type="radio" name="searchDepth" id="searchDepth8" />
+                                <div>8
+                                    moves</div>
+                            </label>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="line">
+                        <button id="setupButton">Setup Board</button>
+                        <div>
+                            Disc type
+                            <div class="toggle"><label>
+                                    <input type="radio" checked="checked" id="setupBlack" name="discType" />
+                                    <div>Black</div>
+                                </label>
+                                <label>
+                                    <input type="radio" id="setupWhite" name="discType" />
+                                    <div>White</div>
+                                </label>
+                                <label>
+                                    <input type="radio" id="setupErase" name="discType" />
+                                    <div>Erase Disc</div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-content" data-for="analysis" id="analysisPanel">
-                    
+
                 </div>
             </div>
             <div class="sideCard">

@@ -156,8 +156,27 @@ html {
     font-size: 20px;
 }
 
-button,
+.toggle {
+    background-color: black;
+    border-radius: 5px;
+    display: inline-block;
+    padding: 3px
+}
+
 input[type="radio"]+div {
+    display: inline-block;
+    border-radius: 5px;
+    min-width: 70px;
+    padding: 3px;
+    margin: 2px;
+    text-align: center;
+
+    input:checked+& {
+        background-color: #1971C2;
+    }
+}
+
+button {
     display: inline-block;
     border: solid 3px transparent;
     background-color: #1971C2;
@@ -173,8 +192,7 @@ input[type="radio"]+div {
         background-color: #1864AB;
     }
 
-    &.selected,
-    input:checked+& {
+    &.selected {
         background-color: dodgerblue;
         color: white;
 
@@ -374,9 +392,11 @@ body {
 .tab-content:not(.show) {
     display: none;
 }
-.analysis-line{
-    font-size:16px
+
+.analysis-line {
+    font-size: 16px;
 }
+
 .analysis-line span {
     display: inline-block;
     font-family: Consolas, monospace;
