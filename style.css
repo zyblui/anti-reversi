@@ -170,7 +170,7 @@ input[type="radio"]+div {
     padding: 3px;
     margin: 2px;
     text-align: center;
-
+    cursor: pointer;
     input:checked+& {
         background-color: #1971C2;
     }
@@ -383,9 +383,12 @@ body {
     padding-top: 7px;
     padding-bottom: 7px;
     color: #C1C2C5;
-
+    cursor: pointer;
     &.selected {
         border-bottom: solid 3px #1971C2;
+    }
+    &:hover{
+        background-color: #2C2E33;
     }
 }
 
