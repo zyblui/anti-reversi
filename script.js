@@ -59,6 +59,7 @@ for (let i = 0; i <= 7; i++) {
                     y: 0
                 }
                 previousMoves = [];
+                navigationPosition = [-1, 1]
                 render();
             }
         })
@@ -93,6 +94,8 @@ document.getElementById("setupClear").addEventListener("click", function () {
         x: 0,
         y: 0
     }
+    previousMoves = [];
+    navigationPosition = [-1, 1]
     render();
 })
 document.getElementById("startGameButton").addEventListener("click", function () {
@@ -181,6 +184,8 @@ function render() {
             navigate(i, 1);
         })
     }
+    document.querySelector(".navigationPosition").classList.remove("navigationPosition");
+    if (document.getElementById("notation").children[navigationPosition[0]]) document.getElementById("notation").children[navigationPosition[0]].children[navigationPosition[1]].classList.add("navigationPosition");
 }
 function navigate(moveNo, side/*0,1*/) {
     board = JSON.parse(JSON.stringify(initialPosition));
@@ -194,8 +199,10 @@ function navigate(moveNo, side/*0,1*/) {
         x: Number(previousMoves[moveNo][side][1]),
         y: LETTERS.indexOf(previousMoves[moveNo][side][0]) + 1
     }
+    navigationPosition = [moveNo, side];
     render();
 }
+let navigationPosition = [0, 0];
 function pd(coord) {
     let y = LETTERS.indexOf(coord[0]);
     let x = Number(coord[1]) - 1;
@@ -215,8 +222,8 @@ function pd(coord) {
             else previousMoves.push(["--", coord]);
         }
     } else {
-        if(playerColor==1)previousMoves = [[coord, ""]]
-        else previousMoves = [["--",coord]];
+        if (playerColor == 1) previousMoves = [[coord, ""]]
+        else previousMoves = [["--", coord]];
     }
     playerColor = -playerColor;
     if (!validMovesArr().length) playerColor = -playerColor;

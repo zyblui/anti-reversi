@@ -241,7 +241,7 @@ h2 {
 }
 
 .score {
-    font-weight: bold;
+    font-weight: 900;
     text-align: center;
     font-size: 30px;
     line-height: 1;
@@ -327,6 +327,12 @@ body {
         &:hover {
             background-color: #303134;
             cursor: pointer;
+        }
+        &.navigationPosition{
+            background-color: #303134;
+            &:hover{
+                background-color: #35383C;
+            }
         }
     }
 }
