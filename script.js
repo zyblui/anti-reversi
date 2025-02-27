@@ -9,6 +9,17 @@ let board = [
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0]
 ]//1 for black, -1 for white
+let initialPosition = [
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, -1, 1, 0, 0, 0],
+    [0, 0, 0, 1, -1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0]
+];
+let previousMoves = [["a1", "a2"]];
 let positionsConsidered = 0;
 let playerColor = 1;
 let computerColor = -1;
@@ -16,7 +27,6 @@ let lastCoord = {
     x: 0,/*1~8 */
     y: 0
 }
-let previousMoves = [];
 let maxDepth = 6;
 let setupMode = false;
 let setupDisc = 1;
@@ -43,10 +53,12 @@ for (let i = 0; i <= 7; i++) {
             if (!setupMode) pd(LETTERS[j] + (i + 1));
             else {
                 board[i][j] = setupDisc;
+                initialPosition = JSON.parse(JSON.stringify(board));
                 lastCoord = {
                     x: 0,
                     y: 0
                 }
+                previousMoves = [];
                 render();
             }
         })
@@ -90,7 +102,7 @@ document.getElementById("startGameButton").addEventListener("click", function ()
             type: "computerPlay",
             board: board,
             color: playerColor,
-            depth:searchDepth
+            depth: searchDepth
         });
     }
 })
@@ -152,6 +164,10 @@ function render() {
     }
     if (document.querySelector(".lastMove")) document.querySelector(".lastMove").classList.remove("lastMove")
     if (lastCoord.x != 0) document.querySelector(".r" + lastCoord.x + ".c" + lastCoord.y).classList.add("lastMove");
+    document.getElementById("notation").innerHTML = ""
+    for (let element of previousMoves) {
+        document.getElementById("notation").innerHTML += ("<span>" + element[0] + " " + element[1] + "</span>");
+    }
 }
 function pd(coord) {
     let y = LETTERS.indexOf(coord[0]);
@@ -163,6 +179,17 @@ function pd(coord) {
         y: y + 1
     }
     board = placeResult.board;
+    if (previousMoves.length) {
+        if (playerColor == 1) {
+            previousMoves.push([coord, ""])
+            if (!previousMoves[previousMoves.length - 2][1]) previousMoves[previousMoves.length - 2][1] = "--"
+        } else {
+            if (!previousMoves[previousMoves.length - 1][1]) previousMoves[previousMoves.length - 1][1] = coord;
+            else previousMoves.push(["--", coord]);
+        }
+    } else {
+        previousMoves = [[coord, ""]]
+    }
     playerColor = -playerColor;
     if (!validMovesArr().length) playerColor = -playerColor;
     if (playerColor == 1) {
@@ -193,17 +220,14 @@ function pd(coord) {
     console.log("The currect board is");
     console.log(boardStr);
     render();
-    //setTimeout(function () {
     if (computerColor == playerColor) {
-        //cpu();
         w.postMessage({
             type: "computerPlay",
             board: board,
             color: playerColor,
-            depth:searchDepth
+            depth: searchDepth
         });
     }
-    //}, 100)
 }
 function validMovesArr() {
     let situations = []

@@ -9,6 +9,9 @@
 </head>
 
 <body>
+    <div id="title">
+        <div>Anti Reversi</div>
+    </div>
     <div id="container">
         <div id="board-container">
             <div class="dot dot-top dot-left"></div>
@@ -81,72 +84,76 @@
             <div class="grid r8 c8"></div>
         </div>
         <div id="side">
-            <h1>Anti Reversi</h1>
-            <div id="scoreboard">
-                <div>
-                    <div id="blackBar"></div>
-                    <div class="indicator active" id="indicatorBlack"></div><span class="playerName">Black</span>
-                    <span class="score" id="blackScore">2</span>
+            <div class="sideCard">
+                <div class="line">
+                    <button id="startGameButton">Start Game</button>
+                    <button id="setupButton">Setup Board</button>
                 </div>
-                <hr />
-                <div>
-                    <div id="whiteBar"></div>
-                    <div class="indicator" id="indicatorWhite"></div><span class="playerName">White</span>
-                    <span class="score" id="whiteScore">2</span>
-                </div>
-            </div>
-            <div>
-                <button id="startGameButton">Start Game</button>
-                <button id="setupButton">Setup Board</button>
-            </div>
-            <div>
-                <label>
-                    <input type="radio" checked="checked" name="sideToMove" id="sideToMoveBlack" />
-                    <div>Black</div>
-                </label>
-                <label>
-                    <input type="radio" name="sideToMove" id="sideToMoveWhite" />
-                    <div>White</div>
-                </label>
-                to move
-            </div>
-            <div>Computer plays <label><input type="radio" name="computerRole" id="computerRoleBlack" />
-                    <div>Black</div>
-                </label>
-                <label><input type="radio" checked="checked" name="computerRole" id="computerRoleWhite" />
-                    <div>White</div>
-                </label>
-                <label><input type="radio" name="computerRole" id="computerRoleNeither" />
-                    <div>Neither</div>
-                </label>
-            </div>
-            <div>Search Depth <label><input type="radio" checked="checked" name="searchDepth" id="searchDepth6" />
-                    <div>6 moves</div>
-                </label>
-                <label><input type="radio" name="searchDepth" id="searchDepth8" />
-                    <div>8
-                        moves</div>
-                </label>
-            </div>
-            <div>
-                <h2>Setup Board</h2>
-                <hr />
-                <div>
-                    Disc type <label>
-                        <input type="radio" checked="checked" id="setupBlack" name="discType" />
+                <div class="line">
+                    <label>
+                        <input type="radio" checked="checked" name="sideToMove" id="sideToMoveBlack" />
                         <div>Black</div>
                     </label>
                     <label>
-                        <input type="radio" id="setupWhite" name="discType" />
+                        <input type="radio" name="sideToMove" id="sideToMoveWhite" />
                         <div>White</div>
                     </label>
-                    <label>
-                        <input type="radio" id="setupErase" name="discType" />
-                        <div>Erase Disc</div>
+                    to move
+                </div>
+                <div class="line">Computer plays <label><input type="radio" name="computerRole" id="computerRoleBlack" />
+                        <div>Black</div>
+                    </label>
+                    <label><input type="radio" checked="checked" name="computerRole" id="computerRoleWhite" />
+                        <div>White</div>
+                    </label>
+                    <label><input type="radio" name="computerRole" id="computerRoleNeither" />
+                        <div>Neither</div>
                     </label>
                 </div>
+                <div class="line">Search Depth <label><input type="radio" checked="checked" name="searchDepth" id="searchDepth6" />
+                        <div>6 moves</div>
+                    </label>
+                    <label><input type="radio" name="searchDepth" id="searchDepth8" />
+                        <div>8
+                            moves</div>
+                    </label>
+                </div>
+                <div class="line">
+                    <h2>Setup Board</h2>
+                    <hr />
+                    <div>
+                        Disc type <label>
+                            <input type="radio" checked="checked" id="setupBlack" name="discType" />
+                            <div>Black</div>
+                        </label>
+                        <label>
+                            <input type="radio" id="setupWhite" name="discType" />
+                            <div>White</div>
+                        </label>
+                        <label>
+                            <input type="radio" id="setupErase" name="discType" />
+                            <div>Erase Disc</div>
+                        </label>
+                    </div>
+                </div>
+                <button id="setupClear">Clear</button>
             </div>
-            <button id="setupClear">Clear</button>
+            <div class="sideCard">
+                <div id="scoreboard">
+                    <div>
+                        <div class="playerName"><div class="indicator active" id="indicatorBlack"></div>Black</div>
+                        <div class="score" id="blackScore">2</div>
+                    </div>
+                    <div>
+                        <div class="playerName"><div class="indicator" id="indicatorWhite"></div>White</div>
+                        <div class="score" id="whiteScore">2</div>
+                    </div>
+                </div>
+                <hr/>
+                <div id="notation">
+                    
+                </div>
+            </div>
         </div>
     </div>
     <script src="func.js"></script>
