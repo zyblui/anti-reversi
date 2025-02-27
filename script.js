@@ -186,6 +186,14 @@ function render() {
     }
     if (document.querySelector(".navigationPosition")) document.querySelector(".navigationPosition").classList.remove("navigationPosition");
     if (document.getElementById("notation").children[navigationPosition[0]]) document.getElementById("notation").children[navigationPosition[0]].children[navigationPosition[1]].classList.add("navigationPosition");
+    if (playerColor == 1) {
+        document.getElementById("sideToMoveBlack").checked = "checked";
+        document.getElementById("sideToMoveWhite").checked = "";
+    }
+    else {
+        document.getElementById("sideToMoveWhite").checked = "checked";
+        document.getElementById("sideToMoveBlack").checked = "";
+    }
 }
 function navigate(moveNo, side/*0,1*/) {
     board = JSON.parse(JSON.stringify(initialPosition));
@@ -243,14 +251,6 @@ function pd(coord) {
     navigationPosition = [previousMoves.length - 1, ((playerColor == 1) ? 0 : 1)]
     playerColor = -playerColor;
     if (!validMovesArr().length) playerColor = -playerColor;
-    if (playerColor == 1) {
-        document.getElementById("sideToMoveBlack").checked = "checked";
-        document.getElementById("sideToMoveWhite").checked = "";
-    }
-    else {
-        document.getElementById("sideToMoveWhite").checked = "checked";
-        document.getElementById("sideToMoveBlack").checked = "";
-    }
     let boardStr = "";
     for (let i of board) {
         for (let j of i) {
