@@ -195,9 +195,16 @@ function navigate(moveNo, side/*0,1*/) {
     }
     if (previousMoves[moveNo][0] && previousMoves[moveNo][0] != "--") board = placeDisc(board, Number(previousMoves[moveNo][0][1]) - 1, LETTERS.indexOf(previousMoves[moveNo][0][0]), 1).board;
     if (side == 1 && previousMoves[moveNo][1] && previousMoves[moveNo][1] != "--") board = placeDisc(board, Number(previousMoves[moveNo][1][1]) - 1, LETTERS.indexOf(previousMoves[moveNo][1][0]), -1).board;
-    lastCoord = {
-        x: Number(previousMoves[moveNo][side][1]),
-        y: LETTERS.indexOf(previousMoves[moveNo][side][0]) + 1
+    if (previousMoves[moveNo][side] != "--") {
+        lastCoord = {
+            x: Number(previousMoves[moveNo][side][1]),
+            y: LETTERS.indexOf(previousMoves[moveNo][side][0]) + 1
+        }
+    } else {
+        lastCoord = {
+            x: 0,
+            y: 0
+        }
     }
     navigationPosition = [moveNo, side];
     render();
