@@ -37,7 +37,7 @@ onmessage = function (e) {
 }
 
 function cpu() {
-    let discs = discCount(board).black+discCount(board).white;
+    let discs = discCount(board).black + discCount(board).white;
     let result = initSearchSort(board, searchDepth, playerColor);
     console.log(result)
     result.sort(function (a, b) {
@@ -51,7 +51,7 @@ function cpu() {
                 if (board[i][j] == 0 && r.board[i][j] != 0) {
                     analysis.push({
                         coord: LETTERS[j] + (i + 1),
-                        evaluation: r.evaluation * (61 / Math.min(discs + searchDepth-3, 61)) / 17
+                        evaluation: r.evaluation * (61 / Math.min(discs + searchDepth - 3, 61)) / 17
                     });
                 }
             }
@@ -225,14 +225,33 @@ function initSearchAlpha(currentBoard, depth, color) {
 }
 function initSearchSort(currentBoard, depth, color) {//!
     positionsConsidered = 0;
+    let shallowDepth = 0;
+    if (depth >= 8) shallowDepth = 4;
+    else shallowDepth = 2;
+    let shallowResult = shallowSearch(currentBoard, shallowDepth, color);
+    //Continue searching to the depth set
+    return searchAlpha(shallowResult, depth, color, color, +Infinity, false, false).nextMoves;
+}
+function shallowSearch(currentBoard, shallowDepth, color) {
     let shallowResult = searchAlpha({
         board: currentBoard,
         nextMoves: [],
         evaluation: -Infinity,
         lastColorPlayed: -color
-    }, 2, color, color, +Infinity, false, true);
+    }, shallowDepth, color, color, +Infinity, false, true);
     //Sort and reset evaluations
-    for (let i of shallowResult.nextMoves) {
+    function sort(move, evalIsInfinity) {
+        if (move.nextMoves.length) {
+            move.nextMoves.sort((a, b) => (evalIsInfinity) ? (a.evaluation - b.evaluation) : (b.evaluation - a.evaluation));
+            for (let i of move.nextMoves) {
+                sort(i, !evalIsInfinity);
+            }
+        }
+        move.evaluation = (evalIsInfinity) ? Infinity : -Infinity;
+    }
+    sort(shallowResult, false);
+    console.log(JSON.parse(JSON.stringify(shallowResult)))
+    /*for (let i of shallowResult.nextMoves) {
         i.nextMoves.sort((a, b) => a.evaluation - b.evaluation);
         for (let j of i.nextMoves) {
             j.evaluation = -Infinity;
@@ -242,9 +261,8 @@ function initSearchSort(currentBoard, depth, color) {//!
     for (let i of shallowResult.nextMoves) {
         i.evaluation = +Infinity
     }
-    shallowResult.evaluation = -Infinity;
-    //Continue searching to the depth set
-    return searchAlpha(shallowResult, depth, color, color, +Infinity, false, false).nextMoves;
+    shallowResult.evaluation = -Infinity;*/
+    return shallowResult;
 }
 function getStableDiscs(currentBoard) {
     let arr = [
