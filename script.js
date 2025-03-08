@@ -198,18 +198,18 @@ function render() {
         span1.innerText = previousMoves[i][0];
         let spanContainer = document.createElement("span");
         spanContainer.appendChild(span1);
+        span1.addEventListener("click", function () {
+            navigate(i, 0);
+        });
         if (previousMoves[i][1]) {
             let span2 = document.createElement("span");
             span2.innerText = previousMoves[i][1];
             spanContainer.appendChild(span2);
+            span2.addEventListener("click", function () {
+                navigate(i, 1);
+            })
         }
         document.getElementById("notation").appendChild(spanContainer);
-        span1.addEventListener("click", function () {
-            navigate(i, 0);
-        });
-        span2.addEventListener("click", function () {
-            navigate(i, 1);
-        })
     }
     if (document.querySelector(".navigationPosition")) document.querySelector(".navigationPosition").classList.remove("navigationPosition");
     if (document.getElementById("notation").children[navigationPosition[0]]) document.getElementById("notation").children[navigationPosition[0]].children[navigationPosition[1]].classList.add("navigationPosition");
