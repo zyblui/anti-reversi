@@ -68,7 +68,7 @@ w.onmessage = function (e) {
             let hr = document.createElement("hr");
             document.getElementById("analysisContent").appendChild(hr);
         }
-        document.getElementById("nodesNumber").innerText=e.data.nodes;
+        document.getElementById("nodesNumber").innerText = e.data.nodes;
         pd(e.data.analysis[0].coord);
     }
 }
@@ -395,4 +395,14 @@ document.addEventListener("keydown", function (e) {
         case "ArrowDown":
             document.getElementById("lastMove").click();
     }
+})
+document.getElementById("deleteMoveButton").addEventListener("click", function () {
+    if (navigationPosition[0] < 0) return;
+    if (navigationPosition[1] == 0) {
+        previousMoves = previousMoves.slice(0, navigationPosition[0]);
+    } else {
+        previousMoves = previousMoves.slice(0, navigationPosition[0] + 1);
+        previousMoves[previousMoves.length - 1][1] = "";
+    }
+    render();
 })

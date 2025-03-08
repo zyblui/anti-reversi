@@ -188,7 +188,7 @@ button {
     color: white;
     transition: 0.3s;
     cursor: pointer;
-
+height:38px;
     &:hover {
         background-color: #1864AB;
     }
@@ -250,6 +250,7 @@ h2 {
 
 #scoreboard {
     /*width: 200px;*/
+    position: relative;
 }
 
 #scoreboard>div {
@@ -424,4 +425,20 @@ body {
 
 .mono{
     font-family:Consolas,monospace;
+}
+.menuButton{
+    background-color: transparent;
+    position: absolute;
+    top:0;
+    bottom:0;
+    margin:auto 0;
+    &:not(.menuButtonRed):hover{
+        background-color: #303134;
+    }
+    &.menuButtonRed{
+        color:#FA5252;
+        &:hover{
+            background-color: #502E32;
+        }
+    }
 }
