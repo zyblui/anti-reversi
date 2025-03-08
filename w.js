@@ -37,24 +37,13 @@ onmessage = function (e) {
 }
 
 function cpu() {
-    let result = /*initSearchAlpha(board, searchDepth, playerColor)*/initSearchSort(board, searchDepth, playerColor);
+    let discs = discCount(board);
+    let result = initSearchSort(board, searchDepth, playerColor);
     console.log(result)
     result.sort(function (a, b) {
         return b.evaluation - a.evaluation;
     });
     result = result.slice(0, 3);
-    /*let biggestValue = Math.max(...result.map((x) => x.evaluation))
-    for (let r of result) {
-        if (r.evaluation == biggestValue) {
-            for (let i = 0; i <= 7; i++) {
-                for (let j = 0; j <= 7; j++) {
-                    if (board[i][j] == 0 && r.board[i][j] != 0) {
-                        return LETTERS[j] + (i + 1);
-                    }
-                }
-            }
-        }
-    }*/
     let analysis = []
     for (let r of result) {
         for (let i = 0; i <= 7; i++) {
@@ -62,7 +51,7 @@ function cpu() {
                 if (board[i][j] == 0 && r.board[i][j] != 0) {
                     analysis.push({
                         coord: LETTERS[j] + (i + 1),
-                        evaluation: r.evaluation / 17
+                        evaluation: r.evaluation * (64 / Math.min(discCount+searchDepth,64)) / 17
                     });
                 }
             }
