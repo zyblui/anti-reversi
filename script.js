@@ -196,11 +196,13 @@ function render() {
     for (let i = 0; i < previousMoves.length; i++) {
         let span1 = document.createElement("span");
         span1.innerText = previousMoves[i][0];
-        let span2 = document.createElement("span");
-        span2.innerText = previousMoves[i][1];
         let spanContainer = document.createElement("span");
         spanContainer.appendChild(span1);
-        spanContainer.appendChild(span2);
+        if (previousMoves[i][1]) {
+            let span2 = document.createElement("span");
+            span2.innerText = previousMoves[i][1];
+            spanContainer.appendChild(span2);
+        }
         document.getElementById("notation").appendChild(spanContainer);
         span1.addEventListener("click", function () {
             navigate(i, 0);
@@ -400,9 +402,12 @@ document.getElementById("deleteMoveButton").addEventListener("click", function (
     if (navigationPosition[0] < 0) return;
     if (navigationPosition[1] == 0) {
         previousMoves = previousMoves.slice(0, navigationPosition[0]);
+        navigationPosition[0]--;
+        navigationPosition[1] = 1;
     } else {
         previousMoves = previousMoves.slice(0, navigationPosition[0] + 1);
         previousMoves[previousMoves.length - 1][1] = "";
+        navigationPosition[1] = 0;
     }
     render();
 })
