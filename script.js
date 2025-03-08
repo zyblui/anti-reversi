@@ -54,7 +54,7 @@ for (let i of document.querySelectorAll(".tab")) {
 let w = new Worker("w.js");
 w.onmessage = function (e) {
     if (e.data.type == "analysis") {
-        document.getElementById("analysisPanel").innerHTML = ""
+        document.getElementById("analysisContent").innerHTML = ""
         for (let i of e.data.analysis) {
             let analysisLine = document.createElement("div");
             analysisLine.classList.add("analysis-line")
@@ -62,12 +62,13 @@ w.onmessage = function (e) {
             evaluationSpan.innerText = ((i.evaluation >= 0) ? "+" : "") + i.evaluation.toFixed(1);
             evaluationSpan.classList.add(((i.evaluation >= 0) == (playerColor == 1)) ? "black" : "white");
             analysisLine.appendChild(evaluationSpan);
-            let text = document.createTextNode(" " + i.coord)
+            let text = document.createTextNode(" " + i.coord);
             analysisLine.appendChild(text);
-            document.getElementById("analysisPanel").appendChild(analysisLine);
+            document.getElementById("analysisContent").appendChild(analysisLine);
             let hr = document.createElement("hr");
-            document.getElementById("analysisPanel").appendChild(hr);
+            document.getElementById("analysisContent").appendChild(hr);
         }
+        document.getElementById("nodesNumber").innerText=e.data.nodes;
         pd(e.data.analysis[0].coord);
     }
 }

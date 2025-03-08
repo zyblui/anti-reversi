@@ -30,7 +30,8 @@ onmessage = function (e) {
         searchDepth = e.data.depth
         postMessage({
             type: "analysis",
-            analysis: cpu()
+            analysis: cpu(),
+            nodes: positionsConsidered
         });
     }
 }
@@ -61,7 +62,7 @@ function cpu() {
                 if (board[i][j] == 0 && r.board[i][j] != 0) {
                     analysis.push({
                         coord: LETTERS[j] + (i + 1),
-                        evaluation: r.evaluation/5.5
+                        evaluation: r.evaluation / 17
                     });
                 }
             }
@@ -234,6 +235,7 @@ function initSearchAlpha(currentBoard, depth, color) {
     }, depth, color, color, +Infinity, false, false).nextMoves;
 }
 function initSearchSort(currentBoard, depth, color) {//!
+    positionsConsidered = 0;
     let shallowResult = searchAlpha({
         board: currentBoard,
         nextMoves: [],
@@ -265,12 +267,7 @@ function getStableDiscs(currentBoard) {
         [false, false, false, false, false, false, false, false],
         [false, false, false, false, false, false, false, false],
         [false, false, false, false, false, false, false, false]
-    ]
-    /*if (!currentBoard[0][0] && !currentBoard[0][1] && !currentBoard[0][6] && !currentBoard[0][7] && !currentBoard[1][0] && !currentBoard[1][7] && !currentBoard[6][0]
-        && !currentBoard[6][7] && !currentBoard[7][0] && !currentBoard[7][1] && !currentBoard[7][6] && !currentBoard[7][7] && currentBoard.flat().includes(1) && currentBoard.flat().includes(-1)){
-            console.log("r")
-            return arr;
-    }*/
+    ];
     let directionIsFull = [
         [true, true, true, true, true, true, true, true],
         [true, true, true, true, true, true, true, true],
@@ -371,19 +368,19 @@ function getStableDiscs(currentBoard) {
             for (let j = 0; j <= 7; j++) {
                 if (((directionProtected[0][i][j - 1] && currentBoard[i][j - 1] == currentBoard[i][j]) || (directionProtected[0][i][j + 1] && currentBoard[i][j + 1] == currentBoard[i][j])) && !directionProtected[0][i][j]) {
                     directionProtected[0][i][j] = true;
-                    loop = true
+                    loop = true;
                 }
                 if (((directionProtected[3][i - 1] && directionProtected[3][i - 1][j - 1] && currentBoard[i - 1][j - 1] == currentBoard[i][j]) || (directionProtected[3][i + 1] && directionProtected[3][i + 1][j + 1] && currentBoard[i + 1][j + 1] == currentBoard[i][j])) && !directionProtected[3][i][j]) {
                     directionProtected[3][i][j] = true;
-                    loop = true
+                    loop = true;
                 }
                 if (((directionProtected[2][i + 1] && directionProtected[2][i + 1][j - 1] && currentBoard[i + 1][j - 1] == currentBoard[i][j]) || (directionProtected[2][i - 1] && directionProtected[2][i - 1][j + 1] && currentBoard[i - 1][j + 1] == currentBoard[i][j])) && !directionProtected[2][i][j]) {
                     directionProtected[2][i][j] = true;
-                    loop = true
+                    loop = true;
                 }
                 if (((directionProtected[1][i + 1] && directionProtected[1][i + 1][j] && currentBoard[i + 1][j] == currentBoard[i][j]) || (directionProtected[1][i - 1] && directionProtected[1][i - 1][j] && currentBoard[i - 1][j] == currentBoard[i][j])) && !directionProtected[1][i][j]) {
                     directionProtected[1][i][j] = true;
-                    loop = true
+                    loop = true;
                 }
             }
         }
@@ -399,20 +396,21 @@ function getStableDiscs(currentBoard) {
     return arr;
 }
 function initSearch(currentBoard, depth, color) {
-    positionsConsidered = 0;
     return search({
         board: currentBoard
     }, depth, color, color);
 }
+let positionsConsidered = 0;
 function evaluate(currentBoard, player) {
+    positionsConsidered++;
     let flat = currentBoard.flat();
-    if (!flat.includes(player)) return Infinity;
-    else if (!flat.includes(-player)) return -Infinity;
+    if (!flat.includes(player)) return 64 * 17;
+    else if (!flat.includes(-player)) return -64 * 17;
     let evaluation = 0;
     let stableDiscs = getStableDiscs(currentBoard);
     for (let m = 0; m < 8; m++) {
         for (let n = 0; n < 8; n++) {
-            evaluation += ((stableDiscs[m][n]) ? -5.5 : STATIC_TABLE[m][n]) * currentBoard[m][n];
+            evaluation += ((stableDiscs[m][n]) ? -17 : STATIC_TABLE[m][n]) * currentBoard[m][n];
         }
     }
     evaluation *= player;

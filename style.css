@@ -171,6 +171,7 @@ input[type="radio"]+div {
     margin: 2px;
     text-align: center;
     cursor: pointer;
+
     input:checked+& {
         background-color: #1971C2;
     }
@@ -384,10 +385,12 @@ body {
     padding-bottom: 7px;
     color: #C1C2C5;
     cursor: pointer;
+
     &.selected {
         border-bottom: solid 3px #1971C2;
     }
-    &:hover{
+
+    &:hover {
         background-color: #2C2E33;
     }
 }
@@ -417,4 +420,8 @@ body {
         background-color: white;
         color: black
     }
+}
+
+.mono{
+    font-family:Consolas,monospace;
 }
