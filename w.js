@@ -250,7 +250,6 @@ function shallowSearch(currentBoard, shallowDepth, color) {
         move.evaluation = (evalIsInfinity) ? Infinity : -Infinity;
     }
     sort(shallowResult, false);
-    console.log(JSON.parse(JSON.stringify(shallowResult)))
     /*for (let i of shallowResult.nextMoves) {
         i.nextMoves.sort((a, b) => a.evaluation - b.evaluation);
         for (let j of i.nextMoves) {
