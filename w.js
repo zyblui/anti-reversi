@@ -37,7 +37,7 @@ onmessage = function (e) {
 }
 
 function cpu() {
-    let discs = discCount(board);
+    let discs = discCount(board).black+discCount(board).white;
     let result = initSearchSort(board, searchDepth, playerColor);
     console.log(result)
     result.sort(function (a, b) {
