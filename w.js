@@ -51,7 +51,7 @@ function cpu() {
                 if (board[i][j] == 0 && r.board[i][j] != 0) {
                     analysis.push({
                         coord: LETTERS[j] + (i + 1),
-                        evaluation: r.evaluation * (64 / Math.min(discs + searchDepth, 64)) / 17
+                        evaluation: r.evaluation * (61 / Math.min(discs + searchDepth-3, 61)) / 17
                     });
                 }
             }
