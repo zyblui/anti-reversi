@@ -60,13 +60,15 @@ function cpu() {
     return analysis;
 }
 function placeDisc(currentBoard, x, y, color) {
-    let tempBoard = JSON.parse(JSON.stringify(currentBoard))
+    let tempBoard = JSON.parse(JSON.stringify(currentBoard));
     if (tempBoard[x][y]) return { isValid: false };
     let isValidMove = false;
     for (let i of DIRECTIONS) {
         let dirFlip = directionalFlip(tempBoard, x, y, i, color);
-        isValidMove = isValidMove || dirFlip.flip;
-        if (dirFlip.flip) tempBoard = dirFlip.board;
+        if (dirFlip.flip) {
+            isValidMove = true;
+            tempBoard = dirFlip.board;
+        }
     }
     if (isValidMove) {
         tempBoard[x][y] = color;
@@ -240,29 +242,17 @@ function shallowSearch(currentBoard, shallowDepth, color) {
         lastColorPlayed: -color
     }, shallowDepth, color, color, +Infinity, false, true);
     //Sort and reset evaluations
-    function sort(move, evalIsInfinity) {
-        if (move.nextMoves.length) {
-            move.nextMoves.sort((a, b) => (evalIsInfinity) ? (a.evaluation - b.evaluation) : (b.evaluation - a.evaluation));
-            for (let i of move.nextMoves) {
-                sort(i, !evalIsInfinity);
-            }
-        }
-        move.evaluation = (evalIsInfinity) ? Infinity : -Infinity;
-    }
     sort(shallowResult, false);
-    console.log(JSON.parse(JSON.stringify(shallowResult)))
-    /*for (let i of shallowResult.nextMoves) {
-        i.nextMoves.sort((a, b) => a.evaluation - b.evaluation);
-        for (let j of i.nextMoves) {
-            j.evaluation = -Infinity;
+    return shallowResult;
+}
+function sort(move, evalIsInfinity) {
+    if (move.nextMoves.length) {
+        move.nextMoves.sort((a, b) => (evalIsInfinity) ? (a.evaluation - b.evaluation) : (b.evaluation - a.evaluation));
+        for (let i of move.nextMoves) {
+            sort(i, !evalIsInfinity);
         }
     }
-    shallowResult.nextMoves.sort((a, b) => b.evaluation - a.evaluation);
-    for (let i of shallowResult.nextMoves) {
-        i.evaluation = +Infinity
-    }
-    shallowResult.evaluation = -Infinity;*/
-    return shallowResult;
+    move.evaluation = (evalIsInfinity) ? Infinity : -Infinity;
 }
 function getStableDiscs(currentBoard) {
     let arr = [
