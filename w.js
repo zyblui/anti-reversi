@@ -64,8 +64,7 @@ function placeDisc(currentBoard, x, y, color) {
     if (tempBoard[x][y]) return { isValid: false };
     let isValidMove = false;
     for (let i of DIRECTIONS) {
-        let dirFlip = directionalFlip(tempBoard, x, y, i, color);
-        if (dirFlip.flip) {
+        if (directionalFlip(tempBoard, x, y, i, color)) {
             isValidMove = true;
         }
     }
@@ -78,21 +77,19 @@ function placeDisc(currentBoard, x, y, color) {
     }
     return { isValid: false }
 }
-function directionalFlip(currentBoard, x, y, direction, color) {
+function directionalFlip(currentBoard, x, y, direction, color) {//return value: is a valid directional flip
     let flipCounter = 0;
     do {
         flipCounter++;
         if (!(x + direction[0] * flipCounter >= 0 && x + direction[0] * flipCounter <= 7 && y + direction[1] * flipCounter >= 0 && y + direction[1] *
-            flipCounter <= 7) || !currentBoard[x + direction[0] * flipCounter][y + direction[1] * flipCounter]) return { flip: false };
+            flipCounter <= 7) || !currentBoard[x + direction[0] * flipCounter][y + direction[1] * flipCounter]) return false;
     } while (currentBoard[x + direction[0] * flipCounter][y + direction[1] * flipCounter] == -color);
     flipCounter--;
-    if (!flipCounter) return { flip: false };
+    if (!flipCounter) return false;
     for (let i = 1; i <= flipCounter; i++) {
         currentBoard[x + direction[0] * i][y + direction[1] * i] = color;
     }
-    return {
-        flip: true
-    };
+    return true;
 }
 function getValidMoves(currentBoard, color) {
     let situations = []
