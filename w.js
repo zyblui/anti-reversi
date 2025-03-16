@@ -167,7 +167,7 @@ function searchAlpha(currentMove, depth, color, playerColor, parentBestVal, clea
             for (let n = 0; n <= 7; n++) {
                 let placeResult = placeDisc(currentBoard, m, n, color);
                 if (placeResult.isValid) {
-                    let placeResultBoard = placeResult.board
+                    let placeResultBoard = placeResult.board;
                     currentMove.nextMoves.push({
                         board: placeResultBoard,
                         lastColorPlayed: color,
@@ -201,7 +201,7 @@ function searchAlpha(currentMove, depth, color, playerColor, parentBestVal, clea
                 nextMoves: []
             }]
             if (depth >= 2) {
-                searchAlpha(currentMove.nextMoves[0], depth - 1, -color, playerColor, currentMove.evaluation, !isShallowSearch, isShallowSearch)
+                searchAlpha(currentMove.nextMoves[0], depth - 0.5, -color, playerColor, currentMove.evaluation, !isShallowSearch, isShallowSearch);
             } else {
                 currentMove.nextMoves[0].evaluation = evaluate(currentBoard, playerColor);
             }
@@ -224,18 +224,17 @@ function initSearchSort(currentBoard, depth, color) {//!
     let shallowDepth = 0, exactDepth = 0;
     if (depth >= 8) {
         shallowDepth = 4;
-        exactDepth = 10;
+        exactDepth = 12;
     } else {
         shallowDepth = 2;
-        exactDepth = 12;
+        exactDepth = 10;
     }
     let sortedFlat = currentBoard.flat().sort()
     let shallowResult = shallowSearch(currentBoard, shallowDepth, color);
     //Continue searching to the depth set
     let blanks = sortedFlat.indexOf(1) - sortedFlat.indexOf(0);
-    console.log(blanks,exactDepth)
     if (blanks <= exactDepth) {
-        return searchAlpha(shallowResult, blanks * 2, color, color, +Infinity, false, false).nextMoves;
+        return searchAlpha(shallowResult, blanks, color, color, +Infinity, false, false).nextMoves;
     } else {
         return searchAlpha(shallowResult, depth, color, color, +Infinity, false, false).nextMoves;
     }
@@ -411,7 +410,7 @@ function evaluate(currentBoard, player) {
     else if (!flat.includes(-player)) return -64 * 17;
     else if (!flat.includes(0)) {
         let sortedFlat = flat.sort();
-        return (sortedFlat.indexOf(1) - 32) * 2 * player;
+        return (sortedFlat.indexOf(1) - 32) * 2 * player * 17;
     }
     let evaluation = 0;
     let stableDiscs = getStableDiscs(currentBoard);
