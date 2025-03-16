@@ -221,12 +221,23 @@ function initSearchAlpha(currentBoard, depth, color) {
 }
 function initSearchSort(currentBoard, depth, color) {//!
     positionsConsidered = 0;
-    let shallowDepth = 0;
-    if (depth >= 8) shallowDepth = 4;
-    else shallowDepth = 2;
+    let shallowDepth = 0, exactDepth = 0;
+    if (depth >= 8) {
+        shallowDepth = 4;
+        exactDepth = 16;
+    } else {
+        shallowDepth = 2;
+        exactDepth = 14;
+    }
+    let sortedFlat = currentBoard.flat().sort()
     let shallowResult = shallowSearch(currentBoard, shallowDepth, color);
     //Continue searching to the depth set
-    return searchAlpha(shallowResult, depth, color, color, +Infinity, false, false).nextMoves;
+    let blanks = sortedFlat.indexOf(1) - sortedFlat.indexOf(0);
+    if (blanks <= exactDepth) {
+        return searchAlpha(shallowResult, blanks * 2, color, color, +Infinity, false, false).nextMoves;
+    } else {
+        return searchAlpha(shallowResult, depth, color, color, +Infinity, false, false).nextMoves;
+    }
 }
 function shallowSearch(currentBoard, shallowDepth, color) {
     let shallowResult = searchAlpha({
