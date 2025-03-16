@@ -229,12 +229,12 @@ function initSearchSort(currentBoard, depth, color) {//!
         shallowDepth = 2;
         exactDepth = 10;
     }
-    let sortedFlat = currentBoard.flat().sort()
+    let sortedFlat = currentBoard.flat().sort();
     let shallowResult = shallowSearch(currentBoard, shallowDepth, color);
     //Continue searching to the depth set
     let blanks = sortedFlat.indexOf(1) - sortedFlat.indexOf(0);
     if (blanks <= exactDepth) {
-        return searchAlpha(shallowResult, blanks, color, color, +Infinity, false, false, false).nextMoves;
+        return searchAlpha(shallowResult, blanks+2, color, color, +Infinity, false, false, false).nextMoves;
     } else {
         return searchAlpha(shallowResult, depth, color, color, +Infinity, false, false, false).nextMoves;
     }
