@@ -233,6 +233,7 @@ function initSearchSort(currentBoard, depth, color) {//!
     let shallowResult = shallowSearch(currentBoard, shallowDepth, color);
     //Continue searching to the depth set
     let blanks = sortedFlat.indexOf(1) - sortedFlat.indexOf(0);
+    console.log(blanks,exactDepth)
     if (blanks <= exactDepth) {
         return searchAlpha(shallowResult, blanks * 2, color, color, +Infinity, false, false).nextMoves;
     } else {
