@@ -174,7 +174,7 @@ function searchAlpha(currentMove, depth, color, playerColor, parentBestVal, clea
                         evaluation: (color == playerColor) ? +Infinity : -Infinity,
                         nextMoves: []
                     });
-                    if (depth >= 2) {
+                    if (depth > 1) {
                         searchAlpha(currentMove.nextMoves[currentMove.nextMoves.length - 1], depth - 1, -color, playerColor, currentMove.evaluation, !isShallowSearch, isShallowSearch);
                     } else {
                         currentMove.nextMoves[currentMove.nextMoves.length - 1].evaluation = evaluate(placeResultBoard, playerColor);
@@ -200,7 +200,7 @@ function searchAlpha(currentMove, depth, color, playerColor, parentBestVal, clea
                 evaluation: (color == playerColor) ? +Infinity : -Infinity,
                 nextMoves: []
             }]
-            if (depth >= 2) {
+            if (depth > 1) {
                 searchAlpha(currentMove.nextMoves[0], depth - 0.5, -color, playerColor, currentMove.evaluation, !isShallowSearch, isShallowSearch);
             } else {
                 currentMove.nextMoves[0].evaluation = evaluate(currentBoard, playerColor);
