@@ -39,7 +39,7 @@ onmessage = function (e) {
 function cpu() {
     let discs = discCount(board).black + discCount(board).white;
     let result = initSearchSort(board, searchDepth, playerColor);
-    console.log(result)
+    console.log(result);
     result.sort(function (a, b) {
         return b.evaluation - a.evaluation;
     });
@@ -397,6 +397,10 @@ function evaluate(currentBoard, player) {
     let flat = currentBoard.flat();
     if (!flat.includes(player)) return 64 * 17;
     else if (!flat.includes(-player)) return -64 * 17;
+    else if (!flat.includes(0)) {
+        let sortedFlat = flat.sort();
+        return (sortedFlat.indexOf(1) - 32) * 2 * player;
+    }
     let evaluation = 0;
     let stableDiscs = getStableDiscs(currentBoard);
     for (let m = 0; m < 8; m++) {
