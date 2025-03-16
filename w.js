@@ -409,7 +409,6 @@ function evaluate(currentBoard, player) {
     if (!flat.includes(player)) return 64 * 17;
     else if (!flat.includes(-player)) return -64 * 17;
     else if (!flat.includes(0)) {
-        console.log("endgame")
         let sortedFlat = flat.sort();
         return (sortedFlat.indexOf(1) - 32) * 2 * player * 17;
     }
