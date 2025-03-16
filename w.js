@@ -145,11 +145,11 @@ function search(currentMove, depth, color, playerColor) {
     }
 }
 
-function searchAlpha(currentMove, depth, color, playerColor, parentBestVal, clearNextMoves, isShallowSearch) {
+function searchAlpha(currentMove, depth, color, playerColor, parentBestVal, clearNextMoves, isShallowSearch, isLastPass) {
     let currentBoard = currentMove.board;
     if (currentMove.nextMoves.length) {
         for (let i of currentMove.nextMoves) {
-            searchAlpha(i, depth - 1, -color, playerColor, currentMove.evaluation, true, false);
+            searchAlpha(i, depth - 1, -color, playerColor, currentMove.evaluation, true, false, false);
             if (color == playerColor) {//current move is a maximizer, parent is a minimizer
                 currentMove.evaluation = Math.max(currentMove.evaluation, i.evaluation);
                 if (currentMove.evaluation > parentBestVal) {
@@ -175,7 +175,7 @@ function searchAlpha(currentMove, depth, color, playerColor, parentBestVal, clea
                         nextMoves: []
                     });
                     if (depth > 1) {
-                        searchAlpha(currentMove.nextMoves[currentMove.nextMoves.length - 1], depth - 1, -color, playerColor, currentMove.evaluation, !isShallowSearch, isShallowSearch);
+                        searchAlpha(currentMove.nextMoves[currentMove.nextMoves.length - 1], depth - 1, -color, playerColor, currentMove.evaluation, !isShallowSearch, isShallowSearch, false);
                     } else {
                         currentMove.nextMoves[currentMove.nextMoves.length - 1].evaluation = evaluate(placeResultBoard, playerColor);
                     }
@@ -200,8 +200,8 @@ function searchAlpha(currentMove, depth, color, playerColor, parentBestVal, clea
                 evaluation: (color == playerColor) ? +Infinity : -Infinity,
                 nextMoves: []
             }]
-            if (depth > 1) {
-                searchAlpha(currentMove.nextMoves[0], depth - 0.5, -color, playerColor, currentMove.evaluation, !isShallowSearch, isShallowSearch);
+            if (depth > 1 && !isLastPass) {
+                searchAlpha(currentMove.nextMoves[0], depth, -color, playerColor, currentMove.evaluation, !isShallowSearch, isShallowSearch, true);
             } else {
                 currentMove.nextMoves[0].evaluation = evaluate(currentBoard, playerColor);
             }
@@ -217,7 +217,7 @@ function initSearchAlpha(currentBoard, depth, color) {
         nextMoves: [],
         evaluation: -Infinity,
         lastColorPlayed: -color
-    }, depth, color, color, +Infinity, false, false).nextMoves;
+    }, depth, color, color, +Infinity, false, false, false).nextMoves;
 }
 function initSearchSort(currentBoard, depth, color) {//!
     positionsConsidered = 0;
@@ -234,9 +234,9 @@ function initSearchSort(currentBoard, depth, color) {//!
     //Continue searching to the depth set
     let blanks = sortedFlat.indexOf(1) - sortedFlat.indexOf(0);
     if (blanks <= exactDepth) {
-        return searchAlpha(shallowResult, blanks, color, color, +Infinity, false, false).nextMoves;
+        return searchAlpha(shallowResult, blanks, color, color, +Infinity, false, false, false).nextMoves;
     } else {
-        return searchAlpha(shallowResult, depth, color, color, +Infinity, false, false).nextMoves;
+        return searchAlpha(shallowResult, depth, color, color, +Infinity, false, false, false).nextMoves;
     }
 }
 function shallowSearch(currentBoard, shallowDepth, color) {
@@ -245,7 +245,7 @@ function shallowSearch(currentBoard, shallowDepth, color) {
         nextMoves: [],
         evaluation: -Infinity,
         lastColorPlayed: -color
-    }, shallowDepth, color, color, +Infinity, false, true);
+    }, shallowDepth, color, color, +Infinity, false, true, false);
     //Sort and reset evaluations
     sort(shallowResult, false);
     return shallowResult;
