@@ -60,8 +60,8 @@ function cpu() {
     return analysis;
 }
 function placeDisc(currentBoard, x, y, color) {
+    if (currentBoard[x][y]) return { isValid: false };
     let tempBoard = JSON.parse(JSON.stringify(currentBoard));
-    if (tempBoard[x][y]) return { isValid: false };
     let isValidMove = false;
     for (let i of DIRECTIONS) {
         if (directionalFlip(tempBoard, x, y, i, color)) {
@@ -95,7 +95,7 @@ function getValidMoves(currentBoard, color) {
     let situations = []
     for (let m = 0; m <= 7; m++) {
         for (let n = 0; n <= 7; n++) {
-            let placeResult = placeDisc(currentBoard, m, n, color)
+            let placeResult = placeDisc(currentBoard, m, n, color);
             if (placeResult.isValid) {
                 let placeResultBoard = placeResult.board
                 situations.push({
