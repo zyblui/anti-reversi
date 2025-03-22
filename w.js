@@ -60,22 +60,22 @@ function cpu() {
     return analysis;
 }
 function placeDisc(currentBoard, x, y, color) {
-    let tempBoard = JSON.parse(JSON.stringify(currentBoard));
-    if (tempBoard[x][y]) return { isValid: false };
+    //let tempBoard = JSON.parse(JSON.stringify(currentBoard));
+    if (currentBoard[x][y]) return /*{ isValid: false }*/false;
     let isValidMove = false;
     for (let i of DIRECTIONS) {
-        if (directionalFlip(tempBoard, x, y, i, color)) {
+        if (directionalFlip(currentBoard, x, y, i, color)) {
             isValidMove = true;
         }
     }
     if (isValidMove) {
-        tempBoard[x][y] = color;
-        return {
+        currentBoard[x][y] = color;
+        return true/*{
             isValid: true,
             board: tempBoard
-        }
+        }*/
     }
-    return { isValid: false }
+    return /*{ isValid: false }*/false;
 }
 function directionalFlip(currentBoard, x, y, direction, color) {//return value: is a valid directional flip
     let flipCounter = 0;
@@ -95,11 +95,11 @@ function getValidMoves(currentBoard, color) {
     let situations = []
     for (let m = 0; m <= 7; m++) {
         for (let n = 0; n <= 7; n++) {
-            let placeResult = placeDisc(currentBoard, m, n, color)
-            if (placeResult.isValid) {
-                let placeResultBoard = placeResult.board
+            let tempBoard = JSON.parse(JSON.stringify(currentBoard));
+            let placeResult = placeDisc(tempBoard, m, n, color);
+            if (placeResult) {
                 situations.push({
-                    board: placeResultBoard,
+                    board: tempBoard,
                     lastColorPlayed: color
                 });
             }
@@ -111,9 +111,10 @@ function validMovesArr() {
     let situations = []
     for (let m = 0; m <= 7; m++) {
         for (let n = 0; n <= 7; n++) {
-            let placeResult = placeDisc(board, m, n, playerColor);
-            if (placeResult.isValid) {
-                situations.push(m * 8 + n)
+            let tempBoard = JSON.parse(JSON.stringify(board));
+            let placeResult = placeDisc(tempBoard, m, n, playerColor);
+            if (placeResult) {
+                situations.push(m * 8 + n);
             }
         }
     }
@@ -165,11 +166,11 @@ function searchAlpha(currentMove, depth, color, playerColor, parentBestVal, clea
     } else {
         outerFor: for (let m = 0; m <= 7; m++) {
             for (let n = 0; n <= 7; n++) {
-                let placeResult = placeDisc(currentBoard, m, n, color);
-                if (placeResult.isValid) {
-                    let placeResultBoard = placeResult.board;
+                let tempBoard = JSON.parse(JSON.stringify(currentBoard));
+                let placeResult = placeDisc(tempBoard, m, n, color);
+                if (placeResult) {
                     currentMove.nextMoves.push({
-                        board: placeResultBoard,
+                        board: tempBoard,
                         lastColorPlayed: color,
                         evaluation: (color == playerColor) ? +Infinity : -Infinity,
                         nextMoves: []
@@ -177,7 +178,7 @@ function searchAlpha(currentMove, depth, color, playerColor, parentBestVal, clea
                     if (depth > 1) {
                         searchAlpha(currentMove.nextMoves[currentMove.nextMoves.length - 1], depth - 1, -color, playerColor, currentMove.evaluation, !isShallowSearch, isShallowSearch, false);
                     } else {
-                        currentMove.nextMoves[currentMove.nextMoves.length - 1].evaluation = evaluate(placeResultBoard, playerColor);
+                        currentMove.nextMoves[currentMove.nextMoves.length - 1].evaluation = evaluate(tempBoard, playerColor);
                     }
                     if (color == playerColor) {//current move is a maximizer, parent is a minimizer
                         currentMove.evaluation = Math.max(currentMove.evaluation, currentMove.nextMoves[currentMove.nextMoves.length - 1].evaluation)
@@ -234,7 +235,7 @@ function initSearchSort(currentBoard, depth, color) {//!
     //Continue searching to the depth set
     let blanks = sortedFlat.indexOf(1) - sortedFlat.indexOf(0);
     if (blanks <= exactDepth) {
-        return searchAlpha(shallowResult, blanks, color, color, +Infinity, false, false, false).nextMoves;
+        return searchAlpha(shallowResult, blanks + 2, color, color, +Infinity, false, false, false).nextMoves;
     } else {
         return searchAlpha(shallowResult, depth, color, color, +Infinity, false, false, false).nextMoves;
     }
