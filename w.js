@@ -75,7 +75,7 @@ function placeDisc(currentBoard, x, y, color) {
             board: tempBoard
         }
     }
-    return { isValid: false }
+    return { isValid: false };
 }
 function directionalFlip(currentBoard, x, y, direction, color) {//return value: is a valid directional flip
     let flipCounter = 0;
@@ -113,7 +113,7 @@ function validMovesArr() {
         for (let n = 0; n <= 7; n++) {
             let placeResult = placeDisc(board, m, n, playerColor);
             if (placeResult.isValid) {
-                situations.push(m * 8 + n)
+                situations.push(m * 8 + n);
             }
         }
     }
@@ -177,7 +177,7 @@ function searchAlpha(currentMove, depth, color, playerColor, parentBestVal, clea
                     if (depth > 1) {
                         searchAlpha(currentMove.nextMoves[currentMove.nextMoves.length - 1], depth - 1, -color, playerColor, currentMove.evaluation, !isShallowSearch, isShallowSearch, false);
                     } else {
-                        currentMove.nextMoves[currentMove.nextMoves.length - 1].evaluation = evaluate(placeResultBoard, playerColor);
+                        currentMove.nextMoves[currentMove.nextMoves.length - 1].evaluation = evaluateNew(placeResultBoard, playerColor);
                     }
                     if (color == playerColor) {//current move is a maximizer, parent is a minimizer
                         currentMove.evaluation = Math.max(currentMove.evaluation, currentMove.nextMoves[currentMove.nextMoves.length - 1].evaluation)
@@ -203,7 +203,7 @@ function searchAlpha(currentMove, depth, color, playerColor, parentBestVal, clea
             if (depth > 1 && !isLastPass) {
                 searchAlpha(currentMove.nextMoves[0], depth, -color, playerColor, currentMove.evaluation, !isShallowSearch, isShallowSearch, true);
             } else {
-                currentMove.nextMoves[0].evaluation = evaluate(currentBoard, playerColor);
+                currentMove.nextMoves[0].evaluation = evaluateNew(currentBoard, playerColor);
             }
             currentMove.evaluation = currentMove.nextMoves[0].evaluation;
         }
@@ -219,7 +219,7 @@ function initSearchAlpha(currentBoard, depth, color) {
         lastColorPlayed: -color
     }, depth, color, color, +Infinity, false, false, false).nextMoves;
 }
-function initSearchSort(currentBoard, depth, color) {//!
+function initSearchSort(currentBoard, depth, color) {
     positionsConsidered = 0;
     let shallowDepth = 0, exactDepth = 0;
     if (depth >= 8) {
@@ -420,6 +420,206 @@ function evaluate(currentBoard, player) {
         }
     }
     evaluation *= player;
+    return evaluation;
+}
+function evaluateNew(bd, player) {
+    positionsConsidered++;
+    let evaluation = 0;
+    let discs = discCount(bd);
+    let moveIndex = discs.black + discs.white - 4 - 1;
+    evaluation += coeffs[j]["corner33"][Math.min(
+        getPatternNo(bd[0][0], bd[0][1], bd[0][2], bd[1][0], bd[1][1], bd[1][2], bd[2][0], bd[2][1], bd[2][2]),
+        getPatternNo(bd[0][0], bd[1][0], bd[2][0], bd[0][1], bd[1][1], bd[2][1], bd[0][2], bd[1][2], bd[2][2])
+    )];
+    evaluation += coeffs[j]["corner33"][Math.min(
+        getPatternNo(bd[0][7], bd[0][6], bd[0][5], bd[1][7], bd[1][6], bd[1][5], bd[2][7], bd[2][6], bd[2][5]),
+        getPatternNo(bd[0][7], bd[1][7], bd[2][7], bd[0][6], bd[1][6], bd[2][6], bd[0][5], bd[1][5], bd[2][5])
+    )];
+    evaluation += coeffs[j]["corner33"][Math.min(
+        getPatternNo(bd[7][0], bd[7][1], bd[7][2], bd[6][0], bd[6][1], bd[6][2], bd[5][0], bd[5][1], bd[5][2]),
+        getPatternNo(bd[7][0], bd[6][0], bd[5][0], bd[7][1], bd[6][1], bd[5][1], bd[7][2], bd[6][2], bd[5][2])
+    )];
+    evaluation += coeffs[j]["corner33"][Math.min(
+        getPatternNo(bd[7][7], bd[7][6], bd[7][5], bd[6][7], bd[6][6], bd[6][5], bd[5][7], bd[5][6], bd[5][5]),
+        getPatternNo(bd[7][7], bd[6][7], bd[5][7], bd[7][6], bd[6][6], bd[5][6], bd[7][5], bd[6][5], bd[5][5])
+    )];
+    evaluation += coeffs[j]["corner52"][
+        getPatternNo(bd[0][0], bd[0][1], bd[0][2], bd[0][3], bd[0][4], bd[1][0], bd[1][1], bd[1][2], bd[1][3], bd[1][4])
+    ];
+    evaluation += coeffs[j]["corner52"][
+        getPatternNo(bd[0][0], bd[1][0], bd[2][0], bd[3][0], bd[4][0], bd[0][1], bd[1][1], bd[2][1], bd[3][1], bd[4][1])
+    ];
+    evaluation += coeffs[j]["corner52"][
+        getPatternNo(bd[7][0], bd[7][1], bd[7][2], bd[7][3], bd[7][4], bd[6][0], bd[6][1], bd[6][2], bd[6][3], bd[6][4])
+    ];
+    evaluation += coeffs[j]["corner52"][
+        getPatternNo(bd[7][0], bd[6][0], bd[5][0], bd[4][0], bd[3][0], bd[7][1], bd[6][1], bd[5][1], bd[4][1], bd[3][1])
+    ];
+    evaluation += coeffs[j]["corner52"][
+        getPatternNo(bd[0][7], bd[0][6], bd[0][5], bd[0][4], bd[0][3], bd[1][7], bd[1][6], bd[1][5], bd[1][4], bd[1][3])
+    ];
+    evaluation += coeffs[j]["corner52"][
+        getPatternNo(bd[0][7], bd[1][7], bd[2][7], bd[3][7], bd[4][7], bd[0][6], bd[1][6], bd[2][6], bd[3][6], bd[4][6])
+    ];
+    evaluation += coeffs[j]["corner52"][
+        getPatternNo(bd[7][7], bd[6][7], bd[5][7], bd[4][7], bd[3][7], bd[7][6], bd[6][6], bd[5][6], bd[4][6], bd[3][6])
+    ];
+    evaluation += coeffs[j]["corner52"][
+        getPatternNo(bd[7][7], bd[7][6], bd[7][5], bd[7][4], bd[7][3], bd[6][7], bd[6][6], bd[6][5], bd[6][4], bd[6][3])
+    ];
+    evaluation += coeffs[j]["row1"][Math.min(
+        getPatternNo(bd[0][0], bd[0][1], bd[0][2], bd[0][3], bd[0][4], bd[0][5], bd[0][6], bd[0][7]),
+        getPatternNo(bd[0][7], bd[0][6], bd[0][5], bd[0][4], bd[0][3], bd[0][2], bd[0][1], bd[0][0])
+    )];
+    evaluation += coeffs[j]["row1"][Math.min(
+        getPatternNo(bd[7][0], bd[7][1], bd[7][2], bd[7][3], bd[7][4], bd[7][5], bd[7][6], bd[7][7]),
+        getPatternNo(bd[7][7], bd[7][6], bd[7][5], bd[7][4], bd[7][3], bd[7][2], bd[7][1], bd[7][0])
+    )];
+    evaluation += coeffs[j]["row1"][Math.min(
+        getPatternNo(bd[0][0], bd[1][0], bd[2][0], bd[3][0], bd[4][0], bd[5][0], bd[6][0], bd[7][0]),
+        getPatternNo(bd[7][0], bd[6][0], bd[5][0], bd[4][0], bd[3][0], bd[2][0], bd[1][0], bd[0][0])
+    )];
+    evaluation += coeffs[j]["row1"][Math.min(
+        getPatternNo(bd[0][7], bd[1][7], bd[2][7], bd[3][7], bd[4][7], bd[5][7], bd[6][7], bd[7][7]),
+        getPatternNo(bd[7][7], bd[6][7], bd[5][7], bd[4][7], bd[3][7], bd[2][7], bd[1][7], bd[0][7])
+    )];
+    evaluation += coeffs[j]["row2"][Math.min(
+        getPatternNo(bd[1][0], bd[1][1], bd[1][2], bd[1][3], bd[1][4], bd[1][5], bd[1][6], bd[1][7]),
+        getPatternNo(bd[1][7], bd[1][6], bd[1][5], bd[1][4], bd[1][3], bd[1][2], bd[1][1], bd[1][0])
+    )];
+    evaluation += coeffs[j]["row2"][Math.min(
+        getPatternNo(bd[6][0], bd[6][1], bd[6][2], bd[6][3], bd[6][4], bd[6][5], bd[6][6], bd[6][7]),
+        getPatternNo(bd[6][7], bd[6][6], bd[6][5], bd[6][4], bd[6][3], bd[6][2], bd[6][1], bd[6][0])
+    )];
+    evaluation += coeffs[j]["row2"][Math.min(
+        getPatternNo(bd[0][1], bd[1][1], bd[2][1], bd[3][1], bd[4][1], bd[5][1], bd[6][1], bd[7][1]),
+        getPatternNo(bd[7][1], bd[6][1], bd[5][1], bd[4][1], bd[3][1], bd[2][1], bd[1][1], bd[0][1])
+    )];
+    evaluation += coeffs[j]["row2"][Math.min(
+        getPatternNo(bd[0][6], bd[1][6], bd[2][6], bd[3][6], bd[4][6], bd[5][6], bd[6][6], bd[7][6]),
+        getPatternNo(bd[7][6], bd[6][6], bd[5][6], bd[4][6], bd[3][6], bd[2][6], bd[1][6], bd[0][6])
+    )];
+    evaluation += coeffs[j]["row3"][Math.min(
+        getPatternNo(bd[2][0], bd[2][1], bd[2][2], bd[2][3], bd[2][4], bd[2][5], bd[2][6], bd[2][7]),
+        getPatternNo(bd[2][7], bd[2][6], bd[2][5], bd[2][4], bd[2][3], bd[2][2], bd[2][1], bd[2][0])
+    )];
+    evaluation += coeffs[j]["row3"][Math.min(
+        getPatternNo(bd[5][0], bd[5][1], bd[5][2], bd[5][3], bd[5][4], bd[5][5], bd[5][6], bd[5][7]),
+        getPatternNo(bd[5][7], bd[5][6], bd[5][5], bd[5][4], bd[5][3], bd[5][2], bd[5][1], bd[5][0])
+    )];
+    evaluation += coeffs[j]["row3"][Math.min(
+        getPatternNo(bd[0][2], bd[1][2], bd[2][2], bd[3][2], bd[4][2], bd[5][2], bd[6][2], bd[7][2]),
+        getPatternNo(bd[7][2], bd[6][2], bd[5][2], bd[4][2], bd[3][2], bd[2][2], bd[1][2], bd[0][2])
+    )];
+    evaluation += coeffs[j]["row3"][Math.min(
+        getPatternNo(bd[0][5], bd[1][5], bd[2][5], bd[3][5], bd[4][5], bd[5][5], bd[6][5], bd[7][5]),
+        getPatternNo(bd[7][5], bd[6][5], bd[5][5], bd[4][5], bd[3][5], bd[2][5], bd[1][5], bd[0][5])
+    )];
+    evaluation += coeffs[j]["row4"][Math.min(
+        getPatternNo(bd[3][0], bd[3][1], bd[3][2], bd[3][3], bd[3][4], bd[3][5], bd[3][6], bd[3][7]),
+        getPatternNo(bd[3][7], bd[3][6], bd[3][5], bd[3][4], bd[3][3], bd[3][2], bd[3][1], bd[3][0])
+    )];
+    evaluation += coeffs[j]["row4"][Math.min(
+        getPatternNo(bd[4][0], bd[4][1], bd[4][2], bd[4][3], bd[4][4], bd[4][5], bd[4][6], bd[4][7]),
+        getPatternNo(bd[4][7], bd[4][6], bd[4][5], bd[4][4], bd[4][3], bd[4][2], bd[4][1], bd[4][0])
+    )];
+    evaluation += coeffs[j]["row4"][Math.min(
+        getPatternNo(bd[0][3], bd[1][3], bd[2][3], bd[3][3], bd[4][3], bd[5][3], bd[6][3], bd[7][3]),
+        getPatternNo(bd[7][3], bd[6][3], bd[5][3], bd[4][3], bd[3][3], bd[2][3], bd[1][3], bd[0][3])
+    )];
+    evaluation += coeffs[j]["row4"][Math.min(
+        getPatternNo(bd[0][4], bd[1][4], bd[2][4], bd[3][4], bd[4][4], bd[5][4], bd[6][4], bd[7][4]),
+        getPatternNo(bd[7][4], bd[6][4], bd[5][4], bd[4][4], bd[3][4], bd[2][4], bd[1][4], bd[0][4])
+    )];
+    evaluation += coeffs[j]["edgex"][Math.min(
+        getPatternNo(bd[0][0], bd[0][1], bd[0][2], bd[0][3], bd[0][4], bd[0][5], bd[0][6], bd[0][7], bd[1][1], bd[1][6]),
+        getPatternNo(bd[0][7], bd[0][6], bd[0][5], bd[0][4], bd[0][3], bd[0][2], bd[0][1], bd[0][0], bd[1][6], bd[1][1])
+    )];
+    evaluation += coeffs[j]["edgex"][Math.min(
+        getPatternNo(bd[7][0], bd[7][1], bd[7][2], bd[7][3], bd[7][4], bd[7][5], bd[7][6], bd[7][7], bd[6][1], bd[6][6]),
+        getPatternNo(bd[7][7], bd[7][6], bd[7][5], bd[7][4], bd[7][3], bd[7][2], bd[7][1], bd[7][0], bd[6][6], bd[6][1])
+    )];
+    evaluation += coeffs[j]["edgex"][Math.min(
+        getPatternNo(bd[0][0], bd[1][0], bd[2][0], bd[3][0], bd[4][0], bd[5][0], bd[6][0], bd[7][0], bd[1][1], bd[6][1]),
+        getPatternNo(bd[7][0], bd[6][0], bd[5][0], bd[4][0], bd[3][0], bd[2][0], bd[1][0], bd[0][0], bd[6][1], bd[1][1])
+    )];
+    evaluation += coeffs[j]["edgex"][Math.min(
+        getPatternNo(bd[0][7], bd[1][7], bd[2][7], bd[3][7], bd[4][7], bd[5][7], bd[6][7], bd[7][7], bd[1][6], bd[6][6]),
+        getPatternNo(bd[7][7], bd[6][7], bd[5][7], bd[4][7], bd[3][7], bd[2][7], bd[1][7], bd[0][7], bd[6][6], bd[1][6])
+    )];
+    evaluation += coeffs[j]["diagonal4"][Math.min(
+        getPatternNo(bd[0][3], bd[1][2], bd[2][1], bd[3][0]),
+        getPatternNo(bd[3][0], bd[2][1], bd[1][2], bd[0][3])
+    )];
+    evaluation += coeffs[j]["diagonal4"][Math.min(
+        getPatternNo(bd[0][4], bd[1][5], bd[2][6], bd[3][7]),
+        getPatternNo(bd[3][7], bd[2][6], bd[1][5], bd[0][4])
+    )];
+    evaluation += coeffs[j]["diagonal4"][Math.min(
+        getPatternNo(bd[4][0], bd[5][1], bd[6][2], bd[7][3]),
+        getPatternNo(bd[7][3], bd[6][2], bd[5][1], bd[4][0])
+    )];
+    evaluation += coeffs[j]["diagonal4"][Math.min(
+        getPatternNo(bd[4][7], bd[5][6], bd[6][5], bd[7][4]),
+        getPatternNo(bd[7][4], bd[6][5], bd[5][6], bd[4][7])
+    )];
+    evaluation += coeffs[j]["diagonal5"][Math.min(
+        getPatternNo(bd[0][4], bd[1][3], bd[2][2], bd[3][1], bd[4][0]),
+        getPatternNo(bd[4][0], bd[3][1], bd[2][2], bd[1][3], bd[0][4])
+    )];
+    evaluation += coeffs[j]["diagonal5"][Math.min(
+        getPatternNo(bd[7][4], bd[6][3], bd[5][2], bd[4][1], bd[3][0]),
+        getPatternNo(bd[3][0], bd[4][1], bd[5][2], bd[6][3], bd[7][4])
+    )];
+    evaluation += coeffs[j]["diagonal5"][Math.min(
+        getPatternNo(bd[0][3], bd[1][4], bd[2][5], bd[3][6], bd[4][7]),
+        getPatternNo(bd[4][7], bd[3][6], bd[2][5], bd[1][4], bd[0][3])
+    )];
+    evaluation += coeffs[j]["diagonal5"][Math.min(
+        getPatternNo(bd[7][3], bd[6][4], bd[5][5], bd[4][6], bd[3][7]),
+        getPatternNo(bd[3][7], bd[4][6], bd[5][5], bd[6][4], bd[7][3])
+    )];
+    evaluation += coeffs[j]["diagonal6"][Math.min(
+        getPatternNo(bd[0][5], bd[1][4], bd[2][3], bd[3][2], bd[4][1], bd[5][0]),
+        getPatternNo(bd[5][0], bd[4][1], bd[3][2], bd[2][3], bd[1][4], bd[0][5])
+    )];
+    evaluation += coeffs[j]["diagonal6"][Math.min(
+        getPatternNo(bd[0][2], bd[1][3], bd[2][4], bd[3][5], bd[4][6], bd[5][7]),
+        getPatternNo(bd[2][0], bd[3][1], bd[4][2], bd[5][3], bd[6][4], bd[7][5])
+    )];
+    evaluation += coeffs[j]["diagonal6"][Math.min(
+        getPatternNo(bd[7][5], bd[6][4], bd[5][3], bd[4][2], bd[3][1], bd[2][0]),
+        getPatternNo(bd[5][7], bd[4][6], bd[3][5], bd[2][4], bd[1][3], bd[0][2])
+    )];
+    evaluation += coeffs[j]["diagonal6"][Math.min(
+        getPatternNo(bd[7][2], bd[6][3], bd[5][4], bd[4][5], bd[3][6], bd[2][7]),
+        getPatternNo(bd[2][7], bd[3][6], bd[4][5], bd[5][4], bd[6][3], bd[7][2])
+    )];
+    evaluation += coeffs[j]["diagonal7"][Math.min(
+        getPatternNo(bd[0][6], bd[1][5], bd[2][4], bd[3][3], bd[4][2], bd[5][1], bd[6][0]),
+        getPatternNo(bd[6][0], bd[5][1], bd[4][2], bd[3][3], bd[2][4], bd[1][5], bd[0][6])
+    )];
+    evaluation += coeffs[j]["diagonal7"][Math.min(
+        getPatternNo(bd[0][1], bd[1][2], bd[2][3], bd[3][4], bd[4][5], bd[5][6], bd[6][7]),
+        getPatternNo(bd[1][0], bd[2][1], bd[3][2], bd[4][3], bd[5][4], bd[6][5], bd[7][6])
+    )];
+    evaluation += coeffs[j]["diagonal7"][Math.min(
+        getPatternNo(bd[7][6], bd[6][5], bd[5][4], bd[4][3], bd[3][2], bd[2][1], bd[1][0]),
+        getPatternNo(bd[6][7], bd[5][6], bd[4][5], bd[3][4], bd[2][3], bd[1][2], bd[0][1])
+    )];
+    evaluation += coeffs[j]["diagonal7"][Math.min(
+        getPatternNo(bd[7][1], bd[6][2], bd[5][3], bd[4][4], bd[3][5], bd[2][6], bd[1][7]),
+        getPatternNo(bd[1][7], bd[2][6], bd[3][5], bd[4][4], bd[5][3], bd[6][2], bd[7][1])
+    )];
+    evaluation += coeffs[j]["diagonal8"][Math.min(
+        getPatternNo(bd[0][0], bd[1][1], bd[2][2], bd[3][3], bd[4][4], bd[5][5], bd[6][6], bd[7][7]),
+        getPatternNo(bd[7][7], bd[6][6], bd[5][5], bd[4][4], bd[3][3], bd[2][2], bd[1][1], bd[0][0])
+    )];
+    evaluation += coeffs[j]["diagonal8"][Math.min(
+        getPatternNo(bd[0][7], bd[1][6], bd[2][5], bd[3][4], bd[4][3], bd[5][2], bd[6][1], bd[7][0]),
+        getPatternNo(bd[7][0], bd[6][1], bd[5][2], bd[4][3], bd[3][4], bd[2][5], bd[1][6], bd[0][7])
+    )];
+    evaluation /= 50;
     return evaluation;
 }
 function discCount(currentBoard) {
