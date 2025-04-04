@@ -634,3 +634,12 @@ function discCount(currentBoard) {
     }
     return discs;
 }
+function getPatternNo() {
+    let no = 0;
+    for (let i = 0; i < arguments.length; i++) {
+        //empty:0 black:1 white:2
+        if (arguments[i] == 1) no += 1 * 3 ** (arguments.length - 1 - i);
+        else if (arguments[i] == -1) no += 2 * 3 ** (arguments.length - 1 - i);
+    }
+    return no;
+}
