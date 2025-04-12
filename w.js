@@ -1,4 +1,4 @@
-importScripts("simptable-50000-full.js")
+importScripts("simptable-100000.js")
 let board = [
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
