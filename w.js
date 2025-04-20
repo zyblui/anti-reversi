@@ -468,7 +468,7 @@ function evaluateNew(bd, player) {
     evaluation += coeffs[moveIndex]["corner52"][
         getPatternNo(bd[7][7], bd[7][6], bd[7][5], bd[7][4], bd[7][3], bd[6][7], bd[6][6], bd[6][5], bd[6][4], bd[6][3])
     ]||0;
-    evaluation += coeffs[moveIndex]["row1"][Math.min(
+    /*evaluation += coeffs[moveIndex]["row1"][Math.min(
         getPatternNo(bd[0][0], bd[0][1], bd[0][2], bd[0][3], bd[0][4], bd[0][5], bd[0][6], bd[0][7]),
         getPatternNo(bd[0][7], bd[0][6], bd[0][5], bd[0][4], bd[0][3], bd[0][2], bd[0][1], bd[0][0])
     )]||0;
@@ -483,7 +483,7 @@ function evaluateNew(bd, player) {
     evaluation += coeffs[moveIndex]["row1"][Math.min(
         getPatternNo(bd[0][7], bd[1][7], bd[2][7], bd[3][7], bd[4][7], bd[5][7], bd[6][7], bd[7][7]),
         getPatternNo(bd[7][7], bd[6][7], bd[5][7], bd[4][7], bd[3][7], bd[2][7], bd[1][7], bd[0][7])
-    )]||0;
+    )]||0;*/
     evaluation += coeffs[moveIndex]["row2"][Math.min(
         getPatternNo(bd[1][0], bd[1][1], bd[1][2], bd[1][3], bd[1][4], bd[1][5], bd[1][6], bd[1][7]),
         getPatternNo(bd[1][7], bd[1][6], bd[1][5], bd[1][4], bd[1][3], bd[1][2], bd[1][1], bd[1][0])
