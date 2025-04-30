@@ -621,6 +621,7 @@ function evaluateNew(bd, player) {
         getPatternNo(bd[7][0], bd[6][1], bd[5][2], bd[4][3], bd[3][4], bd[2][5], bd[1][6], bd[0][7])
     )]||0;
     evaluation /= 50;
+    if(negateEval)evaluation*=-1;
     return evaluation * player;
 }
 function discCount(currentBoard) {
