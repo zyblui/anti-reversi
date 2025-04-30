@@ -115,6 +115,7 @@ document.getElementById("setupClear").addEventListener("click", function () {
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0]
     ]
+    initialPosition=JSON.parse(JSON.stringify(board));
     lastCoord = {
         x: 0,
         y: 0
@@ -313,7 +314,7 @@ function validMovesArr() {
         for (let n = 0; n <= 7; n++) {
             let placeResult = placeDisc(board, m, n, playerColor);
             if (placeResult.isValid) {
-                situations.push(m * 8 + n)
+                situations.push(m * 8 + n);
             }
         }
     }

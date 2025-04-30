@@ -1,4 +1,4 @@
-importScripts("simptable-3000-anti.js")
+importScripts("simptable-3000-anti.js");
 let board = [
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],

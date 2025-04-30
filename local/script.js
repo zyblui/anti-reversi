@@ -115,6 +115,7 @@ document.getElementById("setupClear").addEventListener("click", function () {
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0]
     ]
+    initialPosition=JSON.parse(JSON.stringify(board));
     lastCoord = {
         x: 0,
         y: 0
