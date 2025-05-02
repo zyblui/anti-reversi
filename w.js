@@ -225,10 +225,10 @@ function initSearchSort(currentBoard, depth, color) {
     let shallowDepth = 0, exactDepth = 0;
     if (depth >= 8) {
         shallowDepth = 4;
-        exactDepth = 12;
+        exactDepth = 14;
     } else {
         shallowDepth = 2;
-        exactDepth = 10;
+        exactDepth = 12;
     }
     let sortedFlat = currentBoard.flat().sort();
     let shallowResult = shallowSearch(currentBoard, shallowDepth, color);
