@@ -26,9 +26,9 @@ const STATIC_TABLE = [
 
 onmessage = function (e) {
     if (e.data.type == "computerPlay") {
-        workerScope.playerColor = e.data.color;
-        workerScope.board = e.data.board;
-        workerScope.searchDepth = e.data.depth
+        playerColor = e.data.color;
+        board = e.data.board;
+        searchDepth = e.data.depth
         postMessage({
             type: "analysis",
             analysis: cpu(),
@@ -38,8 +38,8 @@ onmessage = function (e) {
 }
 
 function cpu() {
-    let discs = discCount(workerScope.board).black + discCount(workerScope.board).white;
-    let result = initSearchSort(workerScope.board, workerScope.searchDepth, workerScope.playerColor);
+    let discs = discCount(board).black + discCount(board).white;
+    let result = initSearchSort(board, searchDepth, playerColor);
     console.log(result);
     result.sort(function (a, b) {
         return b.evaluation - a.evaluation;
@@ -49,7 +49,7 @@ function cpu() {
     for (let r of result) {
         for (let i = 0; i <= 7; i++) {
             for (let j = 0; j <= 7; j++) {
-                if (workerScope.board[i][j] == 0 && r.board[i][j] != 0) {
+                if (board[i][j] == 0 && r.board[i][j] != 0) {
                     analysis.push({
                         coord: LETTERS[j] + (i + 1),
                         evaluation: r.evaluation
@@ -112,7 +112,7 @@ function validMovesArr() {
     let situations = []
     for (let m = 0; m <= 7; m++) {
         for (let n = 0; n <= 7; n++) {
-            let placeResult = placeDisc(workerScope.board, m, n, workerScope.playerColor);
+            let placeResult = placeDisc(board, m, n, playerColor);
             if (placeResult.isValid) {
                 situations.push(m * 8 + n);
             }
