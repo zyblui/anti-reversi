@@ -320,14 +320,14 @@ function validMovesArr() {
     }
     return situations;
 }
-function placeDisc(currentBoard, x, y/*0~7 */, color) {
-    let tempBoard = JSON.parse(JSON.stringify(currentBoard))
-    if (tempBoard[x][y]) return { isValid: false };
+function placeDisc(currentBoard, x, y, color) {
+    if (currentBoard[x][y]) return { isValid: false };
+    let tempBoard = JSON.parse(JSON.stringify(currentBoard));
     let isValidMove = false;
     for (let i of DIRECTIONS) {
-        let dirFlip = directionalFlip(tempBoard, x, y, i, color);
-        isValidMove = isValidMove || dirFlip.flip;
-        if (dirFlip.flip) tempBoard = dirFlip.board;
+        if (directionalFlip(tempBoard, x, y, i, color)) {
+            isValidMove = true;
+        }
     }
     if (isValidMove) {
         tempBoard[x][y] = color;
@@ -336,25 +336,21 @@ function placeDisc(currentBoard, x, y/*0~7 */, color) {
             board: tempBoard
         }
     }
-    return { isValid: false }
+    return { isValid: false };
 }
-function directionalFlip(currentBoard, x, y, direction, color) {
-    let tempBoard = JSON.parse(JSON.stringify(currentBoard))
+function directionalFlip(currentBoard, x, y, direction, color) {//return value: is a valid directional flip
     let flipCounter = 0;
     do {
         flipCounter++;
         if (!(x + direction[0] * flipCounter >= 0 && x + direction[0] * flipCounter <= 7 && y + direction[1] * flipCounter >= 0 && y + direction[1] *
-            flipCounter <= 7) || !tempBoard[x + direction[0] * flipCounter][y + direction[1] * flipCounter]) return { flip: false };
-    } while (tempBoard[x + direction[0] * flipCounter][y + direction[1] * flipCounter] == -color);
+            flipCounter <= 7) || !currentBoard[x + direction[0] * flipCounter][y + direction[1] * flipCounter]) return false;
+    } while (currentBoard[x + direction[0] * flipCounter][y + direction[1] * flipCounter] == -color);
     flipCounter--;
-    if (!flipCounter) return { flip: false };
+    if (!flipCounter) return false;
     for (let i = 1; i <= flipCounter; i++) {
-        tempBoard[x + direction[0] * i][y + direction[1] * i] = color;
+        currentBoard[x + direction[0] * i][y + direction[1] * i] = color;
     }
-    return {
-        flip: true,
-        board: tempBoard
-    };
+    return true;
 }
 function discCount(currentBoard) {
     let discs = {

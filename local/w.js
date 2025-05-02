@@ -47,38 +47,6 @@ function cpu() {
     }
     return analysis;
 }
-function placeDisc(currentBoard, x, y, color) {
-    if (currentBoard[x][y]) return { isValid: false };
-    let tempBoard = JSON.parse(JSON.stringify(currentBoard));
-    let isValidMove = false;
-    for (let i of DIRECTIONS) {
-        if (directionalFlip(tempBoard, x, y, i, color)) {
-            isValidMove = true;
-        }
-    }
-    if (isValidMove) {
-        tempBoard[x][y] = color;
-        return {
-            isValid: true,
-            board: tempBoard
-        }
-    }
-    return { isValid: false };
-}
-function directionalFlip(currentBoard, x, y, direction, color) {//return value: is a valid directional flip
-    let flipCounter = 0;
-    do {
-        flipCounter++;
-        if (!(x + direction[0] * flipCounter >= 0 && x + direction[0] * flipCounter <= 7 && y + direction[1] * flipCounter >= 0 && y + direction[1] *
-            flipCounter <= 7) || !currentBoard[x + direction[0] * flipCounter][y + direction[1] * flipCounter]) return false;
-    } while (currentBoard[x + direction[0] * flipCounter][y + direction[1] * flipCounter] == -color);
-    flipCounter--;
-    if (!flipCounter) return false;
-    for (let i = 1; i <= flipCounter; i++) {
-        currentBoard[x + direction[0] * i][y + direction[1] * i] = color;
-    }
-    return true;
-}
 function getValidMoves(currentBoard, color) {
     let situations = []
     for (let m = 0; m <= 7; m++) {
@@ -603,17 +571,6 @@ function evaluateNew(bd, player) {
     )] || 0;
     evaluation /= 50;
     return evaluation * player;
-}
-function discCount(currentBoard) {
-    let discs = {
-        black: 0,
-        white: 0
-    };
-    for (let i of currentBoard.flat()) {
-        if (i == 1) discs.black++;
-        else if (i == -1) discs.white++;
-    }
-    return discs;
 }
 function getPatternNo() {
     let no = 0;
