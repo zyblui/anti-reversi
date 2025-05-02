@@ -427,7 +427,7 @@ function evaluateNew(bd, player) {
     positionsConsidered++;
     let evaluation = 0;
     let discs = discCount(bd);
-    if (!getValidMoves(bd, 1).length && !getValidMoves(bd, -1).length) {
+    if (/*!getValidMoves(bd, 1).length && !getValidMoves(bd, -1).length*/discs.black+discs.white==64) {
         let blackAdvantageAnti = 0;
         if (discs.black != discs.white) {
             blackAdvantageAnti = (64 - discs.black - discs.white + Math.abs(discs.black - discs.white)) * ((discs.black < discs.white) ? 1 : -1)
@@ -627,7 +627,7 @@ function evaluateNew(bd, player) {
         getPatternNo(bd[0][7], bd[1][6], bd[2][5], bd[3][4], bd[4][3], bd[5][2], bd[6][1], bd[7][0]),
         getPatternNo(bd[7][0], bd[6][1], bd[5][2], bd[4][3], bd[3][4], bd[2][5], bd[1][6], bd[0][7])
     )] || 0;
-    evaluation /= 50;
+    evaluation /= /*50 */46;
     if (negateEval) evaluation *= -1;
     return evaluation * player;
 }
