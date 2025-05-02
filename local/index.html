@@ -13,7 +13,7 @@
         <div>Anti Reversi (Local Ver.)</div>
     </div>
     <div id="container">
-        <div id="board-container">
+        <div id="board-container" class="anti-board">
             <div class="dot dot-top dot-left"></div>
             <div class="dot dot-top dot-right"></div>
             <div class="dot dot-bottom dot-right"></div>
@@ -88,6 +88,8 @@
                 <div class="tabs line">
                     <div class="tab selected" data-for="general">General</div>
                     <div class="tab" data-for="analysis">Analysis</div>
+                    <div class="tab" data-for="annotate">Annotate</div>
+                    <div class="tab" data-for="info">Info</div>
                 </div>
                 <div class="tab-content show" data-for="general">
                     <div class="line">
@@ -153,6 +155,10 @@
                 <div class="tab-content" data-for="analysis" id="analysisPanel">
                     <div class="line mono"><span id="nodesNumber">0</span> node(s)</div>
                     <div id="analysisContent" class="line"></div>
+                </div>
+                <div class="tab-content" data-for="annotate" id="annotatePanel">
+                </div>
+                <div class="tab-content" data-for="info" id="infoPanel">
                 </div>
             </div>
             <div class="sideCard">
