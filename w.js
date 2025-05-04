@@ -28,7 +28,8 @@ onmessage = function (e) {
     if (e.data.type == "computerPlay") {
         playerColor = e.data.color;
         board = e.data.board;
-        searchDepth = e.data.depth
+        searchDepth = e.data.depth;
+        if(!validMovesArr().length)return;
         postMessage({
             type: "analysis",
             analysis: cpu(),
@@ -204,7 +205,7 @@ function searchAlpha(currentMove, depth, color, playerColor, parentBestVal, clea
             if (depth > 1 && !isLastPass) {
                 searchAlpha(currentMove.nextMoves[0], depth, -color, playerColor, currentMove.evaluation, !isShallowSearch, isShallowSearch, true);
             } else {
-                currentMove.nextMoves[0].evaluation = evaluateNew(currentBoard, playerColor);
+                currentMove.nextMoves[0].evaluation = calculateFinalEval(currentBoard, playerColor)//evaluateNew(currentBoard, playerColor);
             }
             currentMove.evaluation = currentMove.nextMoves[0].evaluation;
         }
@@ -225,7 +226,7 @@ function initSearchSort(currentBoard, depth, color) {
     let shallowDepth = 0, exactDepth = 0;
     if (depth >= 8) {
         shallowDepth = 4;
-        exactDepth = 14;
+        exactDepth = 12;
     } else {
         shallowDepth = 2;
         exactDepth = 12;
@@ -423,17 +424,26 @@ function evaluate(currentBoard, player) {
     evaluation *= player;
     return evaluation;
 }
+function calculateFinalEval(bd, player) {
+    positionsConsidered++;
+    let discs = discCount(bd);
+    let blackAdvantageAnti = 0;
+    if (discs.black != discs.white) {
+        blackAdvantageAnti = (64 - discs.black - discs.white + Math.abs(discs.black - discs.white)) * ((discs.black < discs.white) ? 1 : -1)
+    }
+    return blackAdvantageAnti * player;
+}
 function evaluateNew(bd, player) {
     positionsConsidered++;
     let evaluation = 0;
     let discs = discCount(bd);
-    if (/*!getValidMoves(bd, 1).length && !getValidMoves(bd, -1).length*/discs.black+discs.white==64) {
+    /*if (discs.black + discs.white == 64) {
         let blackAdvantageAnti = 0;
         if (discs.black != discs.white) {
             blackAdvantageAnti = (64 - discs.black - discs.white + Math.abs(discs.black - discs.white)) * ((discs.black < discs.white) ? 1 : -1)
         }
         return blackAdvantageAnti * player;
-    }
+    }*/
     let moveIndex = discs.black + discs.white - 4 - 1;
     evaluation += coeffs[moveIndex]["corner33"][Math.min(
         getPatternNo(bd[0][0], bd[0][1], bd[0][2], bd[1][0], bd[1][1], bd[1][2], bd[2][0], bd[2][1], bd[2][2]),
