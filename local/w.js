@@ -147,8 +147,10 @@ function searchAlpha(currentMove, depth, color, playerColor, parentBestVal, clea
             }]
             if (depth > 1 && !isLastPass) {
                 searchAlpha(currentMove.nextMoves[0], depth, -color, playerColor, currentMove.evaluation, !isShallowSearch, isShallowSearch, true);
+            } else if (isLastPass) {
+                currentMove.nextMoves[0].evaluation = calculateFinalEval(currentBoard, playerColor);
             } else {
-                currentMove.nextMoves[0].evaluation = calculateFinalEval(currentBoard, playerColor)//evaluateNew(currentBoard, playerColor);
+                currentMove.nextMoves[0].evaluation = evaluateNew(currentBoard, playerColor);
             }
             currentMove.evaluation = currentMove.nextMoves[0].evaluation;
         }
@@ -179,7 +181,7 @@ function initSearchSort(currentBoard, depth, color) {
     //Continue searching to the depth set
     let blanks = sortedFlat.indexOf(1) - sortedFlat.indexOf(0);
     if (blanks <= exactDepth) {
-        return searchAlpha(shallowResult, blanks + 2, color, color, +Infinity, false, false, false).nextMoves;
+        return searchAlpha(shallowResult, Infinity/*blanks+2*/, color, color, +Infinity, false, false, false).nextMoves;
     } else {
         return searchAlpha(shallowResult, depth, color, color, +Infinity, false, false, false).nextMoves;
     }
