@@ -52,7 +52,7 @@ for (let i of document.querySelectorAll(".tab")) {
     })
 }
 //let w = new Worker("w.js");
-function mainMsg(e){
+function mainMsg(e) {
     if (e.type == "analysis") {
         document.getElementById("analysisContent").innerHTML = "";
         for (let i of e.analysis) {
@@ -115,7 +115,7 @@ document.getElementById("setupClear").addEventListener("click", function () {
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0]
     ]
-    initialPosition=JSON.parse(JSON.stringify(board));
+    initialPosition = JSON.parse(JSON.stringify(board));
     lastCoord = {
         x: 0,
         y: 0
@@ -406,3 +406,29 @@ document.getElementById("deleteMoveButton").addEventListener("click", function (
         navigate(navigationPosition[0], 0);
     }
 })
+let blo = new Blob([document.getElementById("textarea").innerText], {
+    type: "application/json"
+});
+let bloURL = URL.createObjectURL(blo);
+document.getElementById("PGNLink").setAttribute("href", bloURL);
+for (let i of document.querySelectorAll("span.editable-span, input[type='text']")) {
+    i.addEventListener("input", function () {
+        if (!i.innerText) i.classList.add("span-empty");
+        else i.classList.remove("span-empty")
+        getPGN()
+    })
+}
+function getPGN() {
+    let str = "";
+    str += `[Event "${document.getElementById("event").innerText}"]`;
+    str += `\r\n[Site "${document.getElementById("site").innerText}"]`;
+    str += `\r\n[Date "?"]`;
+    str += `\r\n[Round "?"]`;
+    str += `\r\n[Black "${document.getElementById("blackPlayer").value}"]`;
+    str += `\r\n[White "${document.getElementById("whitePlayer").value}"]`;
+    str += `\r\n[Result "?"]`;
+    str+=`\r\n${document.getElementById("notation").innerText}`
+    if(document.getElementById("blackElo").value)str += `\r\n[BlackElo "${document.getElementById("blackElo").value}"]`;
+    if(document.getElementById("whiteElo").value)str += `\r\n[WhiteElo "${document.getElementById("whiteElo").value}"]`;
+    document.getElementById("textarea").innerHTML = str;
+}

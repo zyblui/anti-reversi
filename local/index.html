@@ -157,8 +157,55 @@
                     <div id="analysisContent" class="line"></div>
                 </div>
                 <div class="tab-content" data-for="annotate" id="annotatePanel">
+                    <button>!!</button>
+                    <button>!</button>
+                    <button>!?</button>
+                    <button>?!</button>
+                    <button>?</button>
+                    <button>??</button>
+                    <hr/>
+                    <p contenteditable="true" class="editable-p span-empty"></p>
                 </div>
                 <div class="tab-content" data-for="info" id="infoPanel">
+                    <div class="sub-container">
+                        <div class="line align-center">
+                            <span class="float-left player-color">BLACK</span>
+                            <span contenteditable="true" class="editable-span span-empty" id="event"></span>
+                            <span class="float-right player-color">WHITE</span>
+                        </div>
+                        <div class="line align-center">
+                            <input type="text" placeholder="?" class="float-left" id="blackPlayer"/>
+                            <span contenteditable="true" class="editable-span span-empty" id="site"></span>
+                            <input type="date">
+                            <input type="text" placeholder="?" class="float-right" id="whitePlayer"/>
+                        </div>
+                        <div class="line align-center">
+                            <input type="text" placeholder="Unknown Elo" class="float-left" id="blackElo"/>
+                            <input type="text" placeholder="*" />
+                            <input type="text" placeholder="Unknown Elo" class="float-right" id="whiteElo"/>
+                        </div>
+                    </div>
+                    <h2>PGN</h2>
+                    <div class="line">
+                        <label><input type="checkbox" id="comments" />
+                        Comments</label>
+                        <input type="checkbox" id="glyphs" />
+                        <label for="glyphs">Glyphs</label>
+                        <input type="checkbox" id="variations" />
+                        <label for="variations">Variations</label>
+                        <input type="checkbox" id="extraMarkups" />
+                        <label for="extraMarkups">Extra Markups</label>
+                    </div>
+                    <textarea title="PGN" id="textarea">[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+
+ *</textarea>
+                    <a id="PGNLink"><button id="savePGNButton">Save as PGN</button></a>
                 </div>
             </div>
             <div class="sideCard">
