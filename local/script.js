@@ -294,10 +294,10 @@ function pd(coord) {
             }
         }
         boardStr += "\r\n"
-    }
+    }/*
     console.log(((arguments[1]) ? "Computer" : "You") + " placed a disc on " + coord);
     console.log("The currect board is");
-    console.log(boardStr);
+    console.log(boardStr);*/
     render();
     if (computerColor == playerColor) {
         workerMsg({
